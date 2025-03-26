@@ -1,8 +1,15 @@
+@use "../../styles/partials/mixins" as *;
+
 .nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 1rem;
+  flex-direction: column;
+
+  @include tablet {
+    flex-direction: row;
+  }
 
   &__image {
     height: 10%;
@@ -13,6 +20,7 @@
     text-decoration: none;
     color: #3c6e71;
     font-weight: 700;
+    padding-bottom: 1rem;
   }
 
   &__header {
@@ -30,6 +38,7 @@
     border-radius: 2rem;
     font-weight: 600;
     background-color: #3c6e71;
-    padding: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
   }
 }
