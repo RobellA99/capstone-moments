@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import "./Map.scss";
@@ -12,6 +12,7 @@ export default function Map() {
   const map = useRef(null);
   const markersRef = useRef([]);
   const routeSource = useRef(null);
+  const [activeFeature, setActiveFeature] = useState("");
 
   const fetchRoute = async () => {
     if (markersRef.current.length < 2) return;
@@ -64,6 +65,21 @@ export default function Map() {
     }
   };
 
+  const fetchPlaceName = async (lng, lat) => {
+    try {
+      const response = await axios.get(
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=${mapboxgl.accessToken}`
+      );
+
+      return response.data.features.length > 0
+        ? response.data.features[0].place_name
+        : "Unknown Location";
+    } catch (error) {
+      console.error("Error fetching place name:", error);
+      return "Unknown Location";
+    }
+  };
+
   useEffect(() => {
     if (map.current) return;
 
@@ -86,17 +102,34 @@ export default function Map() {
     }
   }, []);
 
-  const handleMapClick = (e) => {
+  const handleMapClick = async (e) => {
     const { lng, lat } = e.lngLat;
+
+    const placeName = await fetchPlaceName(lng, lat);
+    setActiveFeature(placeName);
+
+    const popup = new mapboxgl.Popup({ offset: 25 })
+      .setHTML(
+        `<h3>${placeName}</h3><p>Coordinates:<br>Lng: ${lng.toFixed(
+          4
+        )}<br>Lat: ${lat.toFixed(4)}</p>`
+      )
+      .addTo(map.current);
 
     const newMarker = new mapboxgl.Marker()
       .setLngLat([lng, lat])
-      .addTo(map.current);
+      .addTo(map.current)
+      .setPopup(popup);
 
     markersRef.current.push(newMarker);
 
     fetchRoute();
   };
 
-  return <div ref={mapContainer} className="map-container"></div>;
+  return (
+    <div>
+      <div ref={mapContainer} className="map-container"></div>
+      {activeFeature && <p>Selected Location: {activeFeature}</p>}
+    </div>
+  );
 }
