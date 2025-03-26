@@ -6,6 +6,7 @@
   justify-content: space-between;
   padding: 1rem;
   flex-direction: column;
+  background-color: #353535;
 
   @include tablet {
     flex-direction: row;
@@ -29,16 +30,21 @@
 
   &__container {
     display: flex;
-    gap: 1rem;
+    gap: 3rem;
+    align-items: center;
   }
 
   &__link {
     text-decoration: none;
-    color: #353535;
-    border-radius: 2rem;
+    color: #3c6e71;
     font-weight: 600;
-    background-color: #3c6e71;
-    padding: 0.5rem 1rem;
     font-size: 0.8rem;
+
+    &.active {
+      border-radius: 2rem;
+      color: #353535;
+      background-color: #3c6e71;
+      padding: 0.5rem 1rem;
+    }
   }
 }

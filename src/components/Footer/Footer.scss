@@ -1,7 +1,23 @@
 .footer {
   background-color: #353535;
+
+  &__header {
+    text-decoration: none;
+    color: #3c6e71;
+    font-weight: 700;
+  }
+
+  &__title {
+    margin: 0;
+    padding: 1rem 0.5rem;
+  }
+
   &__image {
-    height: 4rem;
-    width: 4rem;
+    height: 2rem;
+    width: 2rem;
+  }
+
+  &__container {
+    padding: 0.2rem 0.5rem;
   }
 }

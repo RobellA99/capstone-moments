@@ -1,6 +1,5 @@
 import { Link, NavLink } from "react-router-dom";
 import "./Navigation.scss";
-import Logo from "../../assets/logo.jpg";
 
 export default function Navigation() {
   return (
@@ -10,10 +9,10 @@ export default function Navigation() {
       </Link>
       <div className="nav__container">
         <NavLink to="/" className="nav__link">
-          Profile
+          Map
         </NavLink>
-        <NavLink to="/" className="nav__link">
-          Create
+        <NavLink to="/profile" className="nav__link">
+          Profile
         </NavLink>
       </div>
     </section>
