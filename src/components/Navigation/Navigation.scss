@@ -12,16 +12,12 @@
     flex-direction: row;
   }
 
-  &__image {
-    height: 10%;
-    width: 2rem;
-  }
-
   &__title {
     text-decoration: none;
     color: #3c6e71;
     font-weight: 700;
     padding-bottom: 1rem;
+    cursor: pointer;
   }
 
   &__header {
@@ -39,6 +35,7 @@
     color: #3c6e71;
     font-weight: 600;
     font-size: 0.8rem;
+    cursor: pointer;
 
     &.active {
       border-radius: 2rem;
