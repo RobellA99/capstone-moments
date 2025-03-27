@@ -7,12 +7,13 @@ import axios from "axios";
 mapboxgl.accessToken =
   "pk.eyJ1Ijoicm9iZWxsYSIsImEiOiJjbThvYnRvajIwMHV2Mm1zYnh2bXo2a3RuIn0.25KNcBy5b9rKGa-4yvHKJA";
 
-export default function Map() {
+export default function Map({ resetTrigger }) {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const markersRef = useRef([]);
   const routeSource = useRef(null);
   const [activeFeature, setActiveFeature] = useState("");
+  const [currentRoute, setCurrentRoute] = useState(null);
 
   const fetchRoute = async () => {
     if (markersRef.current.length < 2) return;
@@ -32,6 +33,7 @@ export default function Map() {
       const data = response.data;
       if (data.routes.length > 0) {
         const routeGeometry = data.routes[0].geometry;
+        setCurrentRoute(routeGeometry);
 
         if (map.current.getSource("route")) {
           map.current.getSource("route").setData({
@@ -63,6 +65,20 @@ export default function Map() {
     } catch (error) {
       console.error("Error fetching route:", error);
     }
+  };
+
+  const resetRoute = () => {
+    markersRef.current.forEach((marker) => marker.remove());
+    markersRef.current = [];
+
+    if (map.current.getLayer("route")) {
+      map.current.removeLayer("route");
+    }
+    if (map.current.getSource("route")) {
+      map.current.removeSource("route");
+    }
+
+    setActiveFeature("");
   };
 
   const fetchPlaceName = async (lng, lat) => {
@@ -101,6 +117,10 @@ export default function Map() {
       console.error("Error initializing the map:", error);
     }
   }, []);
+
+  useEffect(() => {
+    resetRoute();
+  }, [resetTrigger]);
 
   const handleMapClick = async (e) => {
     const { lng, lat } = e.lngLat;
