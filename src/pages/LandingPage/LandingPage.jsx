@@ -2,8 +2,9 @@ import { useState } from "react";
 import Map from "../../components/Map/Map";
 import CustomRoute from "../../components/CustomRoute/CustomRoute";
 import "./LandingPage.scss";
+import SideBar from "../../components/SideBar/SideBar";
 
-export default function LandingPage() {
+export default function LandingPage({ isClicked }) {
   const [savedRoutes, setSavedRoutes] = useState([]);
   const [resetTrigger, setResetTrigger] = useState(false);
 
@@ -14,20 +15,20 @@ export default function LandingPage() {
   };
 
   return (
-    <div>
-      <div className="map">
+    <div className="section">
+      <div className="section__drawer">{isClicked && <SideBar />}</div>
+      <div className="section__map">
         <Map resetTrigger={resetTrigger} />
+        <CustomRoute saveRoute={saveRoute} />
+        {savedRoutes && (
+          <div className="section__saved-routes">
+            <h2>Saved Routes</h2>
+            {savedRoutes.map((route, index) => (
+              <p key={index}>{route}</p>
+            ))}
+          </div>
+        )}
       </div>
-      <CustomRoute saveRoute={saveRoute} />
-
-      {savedRoutes && (
-        <div className="saved-routes">
-          <h2>Saved Routes</h2>
-          {savedRoutes.map((route, index) => (
-            <p key={index}>{route}</p>
-          ))}
-        </div>
-      )}
     </div>
   );
 }

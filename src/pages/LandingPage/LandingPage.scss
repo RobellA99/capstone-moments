@@ -1,3 +1,11 @@
-.map {
-  padding: 1rem;
+@use "../../styles/partials/mixins" as *;
+
+.section {
+  width: 100%;
+  display: flex;
+
+  &__map {
+    padding: 1rem;
+    width: 100%;
+  }
 }

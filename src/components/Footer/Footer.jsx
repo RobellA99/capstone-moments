@@ -1,5 +1,5 @@
 import "./Footer.scss";
-import Logo from "../../assets/logo.jpg";
+import Logo from "../../assets/icons/logo.jpg";
 import { Link } from "react-router-dom";
 
 export default function () {

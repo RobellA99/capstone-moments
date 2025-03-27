@@ -147,8 +147,8 @@ export default function Map({ resetTrigger }) {
   };
 
   return (
-    <div>
-      <div ref={mapContainer} className="map-container"></div>
+    <div className="map-box">
+      <div ref={mapContainer} className="map-box__container"></div>
       {activeFeature && <p>Selected Location: {activeFeature}</p>}
     </div>
   );
