@@ -15,6 +15,35 @@ export default function Map({ resetTrigger }) {
   const [activeFeature, setActiveFeature] = useState("");
   const [currentRoute, setCurrentRoute] = useState(null);
 
+  const fetchMonuments = async () => {
+    try {
+      const response = await axios.get("http://localhost:5050/monuments");
+      const monuments = response.data;
+
+      if (!monuments.length) return;
+
+      monuments.forEach((monument) => {
+        const marker = new mapboxgl.Marker({ color: "orange" })
+          .setLngLat([monument.longitude, monument.latitude])
+          .setPopup(new mapboxgl.Popup().setHTML(`<h3>${monument.name}</h3>`))
+          .addTo(map.current);
+
+        marker.getElement().addEventListener("mouseenter", () => {
+          const popup = new mapboxgl.Popup({ offset: 25 })
+            .setHTML(`<h3>${monument.name}</h3>`)
+            .addTo(map.current);
+          marker.setPopup(popup);
+        });
+
+        marker.getElement().addEventListener("mouseleave", () => {
+          marker.getPopup().remove();
+        });
+      });
+    } catch (error) {
+      console.error("Error fetching monuments:", error);
+    }
+  };
+
   const fetchRoute = async () => {
     if (markersRef.current.length < 2) return;
 
@@ -113,6 +142,7 @@ export default function Map({ resetTrigger }) {
       });
 
       map.current.on("click", handleMapClick);
+      fetchMonuments();
     } catch (error) {
       console.error("Error initializing the map:", error);
     }
@@ -125,12 +155,15 @@ export default function Map({ resetTrigger }) {
   const handleMapClick = async (e) => {
     const { lng, lat } = e.lngLat;
 
+    const monuments = fetchMonuments();
     const placeName = await fetchPlaceName(lng, lat);
-    setActiveFeature(placeName);
+    setActiveFeature(placeName, monuments);
 
     const popup = new mapboxgl.Popup({ offset: 25 })
       .setHTML(
-        `<h3>${placeName}</h3><p>Coordinates:<br>Lng: ${lng.toFixed(
+        `<h2>${
+          monuments.name
+        }<h2><h3>${placeName}</h3><p>Coordinates:<br>Lng: ${lng.toFixed(
           4
         )}<br>Lat: ${lat.toFixed(4)}</p>`
       )

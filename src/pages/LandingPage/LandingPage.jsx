@@ -11,7 +11,7 @@ export default function LandingPage({ isClicked }) {
   const saveRoute = (routeName) => {
     setSavedRoutes((prevRoutes) => [...prevRoutes, routeName]);
     console.log("Saved Routes:", routeName);
-    setResetTrigger();
+    setResetTrigger((prev) => !prev);
   };
 
   return (
