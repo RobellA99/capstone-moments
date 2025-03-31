@@ -15,6 +15,21 @@ export default function Map({ resetTrigger }) {
   const [activeFeature, setActiveFeature] = useState("");
   const [currentRoute, setCurrentRoute] = useState(null);
 
+  const [showModal, setShowModal] = useState(false);
+
+  const [currentClickedAddress, setCurrentClickedAddress] = useState("");
+
+  const [currentLocation, setCurrentLocation] = useState({});
+
+  const [monumentData, setMonumentData] = useState({
+    name: "",
+    description: "",
+    latitude: "",
+    longitude: "",
+    category: "",
+    location: "London, UK",
+  });
+
   const fetchMonuments = async () => {
     try {
       const response = await axios.get("http://localhost:5050/monuments");
@@ -38,6 +53,12 @@ export default function Map({ resetTrigger }) {
         marker.getElement().addEventListener("mouseleave", () => {
           marker.getPopup().remove();
         });
+
+        marker.getElement().addEventListener("click", (e) => {
+          const { lng, lat } = marker.getLngLat();
+          calculateProximity(lat, lng);
+          setShowModal(false);
+        });
       });
     } catch (error) {
       console.error("Error fetching monuments:", error);
@@ -45,9 +66,10 @@ export default function Map({ resetTrigger }) {
   };
 
   const fetchRoute = async () => {
-    if (markersRef.current.length < 2) return;
+    if (map.current._markers.length < 2) return;
 
-    const coords = markersRef.current
+    const coords = map.current._markers
+      .slice(0, 24)
       .map((marker) => {
         const { lng, lat } = marker.getLngLat();
         return `${lng},${lat}`;
@@ -137,8 +159,8 @@ export default function Map({ resetTrigger }) {
       map.current = new mapboxgl.Map({
         container: mapContainer.current,
         style: "mapbox://styles/mapbox/streets-v11",
-        center: [-0.12, 51.5],
-        zoom: 11,
+        center: [-0.3, 51.5],
+        zoom: 10,
       });
 
       map.current.on("click", handleMapClick);
@@ -154,35 +176,159 @@ export default function Map({ resetTrigger }) {
 
   const handleMapClick = async (e) => {
     const { lng, lat } = e.lngLat;
+    calculateProximity(lng, lat);
+  };
 
-    const monuments = fetchMonuments();
+  const calculateProximity = async (lng, lat) => {
+    const existingMarker = map.current._markers.find((marker) => {
+      const { lng: markerLng, lat: markerLat } = marker.getLngLat();
+      const distance = Math.sqrt(
+        (markerLng - lng) ** 2 + (markerLat - lat) ** 2
+      );
+      return distance < 0.001;
+    });
+    if (existingMarker) {
+      console.log(existingMarker);
+      existingMarker.togglePopup();
+      setShowModal(false);
+      return;
+    }
+
+    setShowModal(true);
     const placeName = await fetchPlaceName(lng, lat);
-    setActiveFeature(placeName, monuments);
+    setCurrentClickedAddress(placeName);
+    setCurrentLocation({ lng, lat });
+  };
 
-    const popup = new mapboxgl.Popup({ offset: 25 })
-      .setHTML(
-        `<h2>${
-          monuments.name
-        }<h2><h3>${placeName}</h3><p>Coordinates:<br>Lng: ${lng.toFixed(
-          4
-        )}<br>Lat: ${lat.toFixed(4)}</p>`
-      )
-      .addTo(map.current);
+  const addMonument = async () => {
+    if (
+      !monumentData.name ||
+      !monumentData.description ||
+      !monumentData.category
+    ) {
+      alert("Please enter a name and description and category!");
+      return;
+    }
 
-    const newMarker = new mapboxgl.Marker()
-      .setLngLat([lng, lat])
-      .addTo(map.current)
-      .setPopup(popup);
+    try {
+      await axios.post("http://localhost:5050/monuments", monumentData);
 
-    markersRef.current.push(newMarker);
+      fetchMonuments();
 
-    fetchRoute();
+      setShowModal(false);
+      setMonumentData({
+        name: "",
+        description: "",
+        latitude: "",
+        longitude: "",
+        category: "",
+        location: "London, UK",
+      });
+      fetchRoute();
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (currentLocation.lng && currentLocation.lat) {
+      setMonumentData((prev) => ({
+        ...prev,
+        latitude: currentLocation.lat,
+        longitude: currentLocation.lng,
+        // address: currentClickedAddress,
+      }));
+    }
+  }, [currentLocation, currentClickedAddress]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setMonumentData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const submitForm = async (e) => {
+    // setActiveFeature(placeName);
+    // const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
+    //   `<h3>${placeName}</h3>
+    //     <p>Coordinates:<br>Lng: ${lng.toFixed(4)}<br>Lat: ${lat.toFixed(4)}</p>`
+    // );
+    // new mapboxgl.Marker()
+    //   .setLngLat([lng, lat])
+    //   .addTo(map.current)
+    //   .setPopup(popup);
+
+    // create post request first
+    // test in postman
+    // submit the form
+    // save to the backend
+    // then fetch monuments
+    // then fetch route
+    e.preventDefault();
+
+    addMonument();
   };
 
   return (
-    <div className="map-box">
-      <div ref={mapContainer} className="map-box__container"></div>
-      {activeFeature && <p>Selected Location: {activeFeature}</p>}
-    </div>
+    <>
+      <div className="map-box">
+        <div ref={mapContainer} className="map-box__container"></div>
+        {activeFeature && <p>Selected Location: {activeFeature}</p>}
+      </div>
+      {showModal && (
+        <div className="modal">
+          Add new monument for {currentClickedAddress}
+          <form onSubmit={submitForm} className="modal__form">
+            <div className="modal__form-container">
+              <h2 className="modal__form-container-header">Add a Marker</h2>
+              <fieldset>
+                <label className="modal__form-container-label">
+                  <h3>Name:</h3>
+                  <input
+                    type="text"
+                    name="name"
+                    value={monumentData.name}
+                    onChange={handleInputChange}
+                  />
+                </label>
+                <label className="modal__form-container-label">
+                  <h3>Description:</h3>
+                  <textarea
+                    name="description"
+                    value={monumentData.description}
+                    onChange={handleInputChange}
+                  />
+                </label>
+                <h3>Category:</h3>
+                <select
+                  name="category"
+                  value={monumentData.category}
+                  onChange={handleInputChange}
+                >
+                  <option value="">Please choose one...</option>
+
+                  <option value="towers">Famous Towers and Structures</option>
+                  <option value="landmarks">Historic Landmarks</option>
+                  <option value="royal">Royal Residences</option>
+                  <option value="modern">Modern Attractions</option>
+                  <option value="religious">
+                    Religious & Architectural Marvels
+                  </option>
+                  <option value="cultural">Cultural & Public Spaces</option>
+                </select>
+
+                <label className="modal__form-container-label">
+                  <h3>Address:</h3>
+                  <textarea type="text" value={monumentData.address} readOnly />
+                </label>
+                <button type="submit">Save</button>
+              </fieldset>
+            </div>
+          </form>
+        </div>
+      )}
+    </>
   );
 }
