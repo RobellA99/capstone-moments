@@ -188,7 +188,6 @@ export default function Map({ resetTrigger }) {
       return distance < 0.001;
     });
     if (existingMarker) {
-      console.log(existingMarker);
       existingMarker.togglePopup();
       setShowModal(false);
       return;
@@ -236,7 +235,6 @@ export default function Map({ resetTrigger }) {
         ...prev,
         latitude: currentLocation.lat,
         longitude: currentLocation.lng,
-        // address: currentClickedAddress,
       }));
     }
   }, [currentLocation, currentClickedAddress]);
@@ -259,13 +257,6 @@ export default function Map({ resetTrigger }) {
     //   .setLngLat([lng, lat])
     //   .addTo(map.current)
     //   .setPopup(popup);
-
-    // create post request first
-    // test in postman
-    // submit the form
-    // save to the backend
-    // then fetch monuments
-    // then fetch route
     e.preventDefault();
 
     addMonument();
@@ -318,11 +309,6 @@ export default function Map({ resetTrigger }) {
                   </option>
                   <option value="cultural">Cultural & Public Spaces</option>
                 </select>
-
-                <label className="modal__form-container-label">
-                  <h3>Address:</h3>
-                  <textarea type="text" value={monumentData.address} readOnly />
-                </label>
                 <button type="submit">Save</button>
               </fieldset>
             </div>
