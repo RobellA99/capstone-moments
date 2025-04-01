@@ -11,8 +11,9 @@ export default function LandingPage() {
 
   return (
     <div className="card">
-      <h1 className="card__header">Moments</h1>
+      <h1 className="card__header">Category</h1>
       <div
+        onClick={handleClick}
         className={`card__container ${
           isClicked ? "card__container--active" : ""
         }`}
@@ -23,22 +24,24 @@ export default function LandingPage() {
               <div className="card__container-side card__container-side-image--front"></div>
               <div className="card__container-side card__container-side-info--front">
                 <h2 className="card__container-side card__container-side-title--front">
-                  Houses of Parliament
+                  Monument Catgeory
                 </h2>
-                <p className="card__container-info-text">
-                  Description of Houses of Parliament
-                </p>
               </div>
             </div>
           ) : (
             <div className="card__container-side card__container-side--back">
-              <h2 className="card__container-side--back__title">
-                More Information
+              <h2 className="card__container-side card__container-side-title--back">
+                Landmarks
               </h2>
-              <p className="card__container-side--back__info">
-                More description
-              </p>
-              <button className="card__container-side--back__button">
+              <div className="card__container-side card__container-side-info--back">
+                <h3 className="card__container-side card__container-side-info-title--back">
+                  Description of Houses of Parliament
+                </h3>
+                <p className="card__container-side card__container-side-info-text--back">
+                  Address
+                </p>
+              </div>
+              <button className="card__container-side card__container-side-button--back">
                 Learn More
                 <ArrowSvg />
               </button>
