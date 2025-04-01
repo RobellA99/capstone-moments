@@ -5,6 +5,7 @@ import "./App.scss";
 import Footer from "./components/Footer/Footer";
 import { useState } from "react";
 import Menu from "./components/MenuSvg/MenuSvg";
+import MapPage from "./pages/MapPage/MapPage";
 
 export default function App() {
   const [menuDrawerOpen, setMenuDrawerOpen] = useState(false);
@@ -36,10 +37,7 @@ export default function App() {
         <Route
           path="/"
           element={
-            <LandingPage
-              menuDrawerOpen={menuDrawerOpen}
-              isClicked={isClicked}
-            />
+            <MapPage menuDrawerOpen={menuDrawerOpen} isClicked={isClicked} />
           }
         />
       </Routes>
