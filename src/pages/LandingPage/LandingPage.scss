@@ -1,0 +1,74 @@
+@use "../../styles/partials/variables" as *;
+
+.card {
+  background-color: $d2;
+  &__container {
+    position: relative + size(300px, 400px);
+    width: 300px;
+    height: 400px;
+    margin: 4px;
+    perspective: 1000px;
+
+    // .active {
+    //   transform: rotateY(180deg) !important;
+    &:after {
+      display: none;
+    }
+    // }
+  }
+
+  &__container-box {
+    display: inline-block + size(100%, 100%);
+    cursor: pointer;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+    transform: translateZ(-100px);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+
+    &:after {
+      content: "";
+      position: absolute;
+      z-index: -1 + size(100%, 100%);
+      border-radius: 5px;
+      box-shadow: 0 14px 50px -4px hsla(0, 0%, 0%, 0.15);
+      opacity: 0;
+      transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1.4);
+    }
+
+    &:hover {
+      transform: translateZ(0px);
+    }
+
+    &:hover:after {
+      opacity: 1;
+    }
+
+    &:active {
+      transform: rotateY(180deg);
+    }
+  }
+
+  &__container-side {
+    backface-visibility: hidden;
+    position: absolute + size(100%, 100%);
+    border-radius: 5px;
+    background-color: $l1;
+
+    &--front {
+      z-index: 2;
+    }
+
+    // &--back {
+    //   transform: rotateY(180deg);
+    // }
+  }
+
+  &__container-side-image {
+    &--front {
+      background-color: black;
+      border: solid black 2px;
+      height: 5rem;
+      width: 100%;
+    }
+  }
+}
