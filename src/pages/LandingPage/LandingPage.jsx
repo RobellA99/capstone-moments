@@ -5,18 +5,37 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 
 export default function LandingPage() {
-  const [isClicked, setIsClicked] = useState(false);
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState(null);
+  const [clickedCardId, setClickedCardId] = useState(0);
 
-  const [clickedCardId, setClickedCardId] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState("");
+
+  useEffect(() => {
+    const path = window.location.pathname;
+
+    if (path === "/") {
+      localStorage.removeItem("selectedCategories");
+    }
+  }, []);
 
   const handleClick = (id) => {
-    // setIsClicked(!isClicked);
-    // event.target;
-    console.log(id);
-    // event.target.classList.add(click);
-
     setClickedCardId(id);
+  };
+
+  const handleSelectCategory = (category) => {
+    let selectedCategories =
+      JSON.parse(localStorage.getItem("selectedCategories")) || [];
+
+    if (selectedCategories.includes(category)) {
+      selectedCategories = selectedCategories.filter((cat) => cat !== category);
+    } else {
+      selectedCategories.push(category);
+    }
+
+    localStorage.setItem(
+      "selectedCategories",
+      JSON.stringify(selectedCategories)
+    );
   };
 
   const fetchCategory = async () => {
@@ -29,7 +48,6 @@ export default function LandingPage() {
       if (category.length > 0) {
         setCategories(
           category.map((item, key) => {
-            console.log(item);
             return { ...item, clicked: false, id: key };
           })
         );
@@ -43,7 +61,9 @@ export default function LandingPage() {
     fetchCategory();
   }, []);
 
-  // return <p>testing</p>;
+  if (!categories) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <div>
@@ -55,7 +75,7 @@ export default function LandingPage() {
               className={`card__container-box ${
                 clickedCardId === category.id ? "card__container-box--flip" : ""
               }`}
-              onClick={() => handleClick(category.id)}
+              onClick={() => handleClick(category.id, category.category)}
               key={category.id}
             >
               <div
@@ -91,15 +111,28 @@ export default function LandingPage() {
                     Address
                   </p>
                 </div>
-                <button className="card__container-side card__container-side-button--back">
-                  Learn More
+                <button
+                  className="card__container-side card__container-side-button--back"
+                  onClick={() => handleSelectCategory(category.category)}
+                >
+                  Select Category
                   <ArrowSvg />
                 </button>
               </div>
             </article>
           ))}
         </div>
-        <Link to={"/map"}>
+        <Link
+          to={{
+            pathname: "/map",
+            search: `?categories=${categories
+              .find((category) => {
+                return category.id === clickedCardId;
+              })
+              .category.replace(/ /g, "")
+              .replace(/&/g, "%26")}`,
+          }}
+        >
           <button className="button">Create Your Journey</button>
         </Link>
       </div>

@@ -3,11 +3,20 @@ import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import "./Map.scss";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 
 mapboxgl.accessToken =
   "pk.eyJ1Ijoicm9iZWxsYSIsImEiOiJjbThvYnRvajIwMHV2Mm1zYnh2bXo2a3RuIn0.25KNcBy5b9rKGa-4yvHKJA";
 
-export default function Map({ resetTrigger }) {
+// A custom hook that builds on useLocation to parse
+// the query string for you.
+function useQuery() {
+  const { search } = useLocation();
+
+  return React.useMemo(() => new URLSearchParams(search), [search]);
+}
+
+export default function Map({ resetTrigger, selectedCategories }) {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const markersRef = useRef([]);
@@ -30,9 +39,22 @@ export default function Map({ resetTrigger }) {
     location: "London, UK",
   });
 
+  let query = useQuery();
+
   const fetchMonuments = async () => {
     try {
-      const response = await axios.get("http://localhost:5050/monuments");
+      // const selectedCategories =
+      //   JSON.parse(localStorage.getItem("selectedCategories")) || [];
+
+      // const queryParams = selectedCategories.length
+      //   ? `?categories=${selectedCategories.join(",")}`
+      //   : "";
+
+      const requestUrl = `http://localhost:5050/monuments?categories=${encodeURIComponent(
+        query.get("categories")
+      )}`;
+
+      const response = await axios.get(requestUrl);
       const monuments = response.data;
 
       if (!monuments.length) return;
@@ -65,6 +87,10 @@ export default function Map({ resetTrigger }) {
     }
   };
 
+  useEffect(() => {
+    fetchMonuments();
+  }, [selectedCategories]);
+
   const fetchRoute = async () => {
     if (map.current._markers.length < 2) return;
 
@@ -82,6 +108,9 @@ export default function Map({ resetTrigger }) {
       );
 
       const data = response.data;
+
+      console.log("hey", response.data);
+
       if (data.routes.length > 0) {
         const routeGeometry = data.routes[0].geometry;
         setCurrentRoute(routeGeometry);
@@ -164,7 +193,6 @@ export default function Map({ resetTrigger }) {
       });
 
       map.current.on("click", handleMapClick);
-      fetchMonuments();
     } catch (error) {
       console.error("Error initializing the map:", error);
     }

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Map from "../../components/Map/Map";
 import CustomRoute from "../../components/CustomRoute/CustomRoute";
 import "./MapPage.scss";
@@ -7,10 +7,16 @@ import SideBar from "../../components/SideBar/SideBar";
 export default function MapPage({ isClicked }) {
   const [savedRoutes, setSavedRoutes] = useState([]);
   const [resetTrigger, setResetTrigger] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("");
+
+  useEffect(() => {
+    const selectedCategories =
+      JSON.parse(localStorage.getItem("selectedCategories")) || [];
+    setSelectedCategory(selectedCategories);
+  }, []);
 
   const saveRoute = (routeName) => {
     setSavedRoutes((prevRoutes) => [...prevRoutes, routeName]);
-    console.log("Saved Routes:", routeName);
     setResetTrigger((prev) => !prev);
   };
 
@@ -18,9 +24,13 @@ export default function MapPage({ isClicked }) {
     <div className="section">
       <div className="section__drawer">{isClicked && <SideBar />}</div>
       <div className="section__map">
-        <Map resetTrigger={resetTrigger} />
+        <Map
+          resetTrigger={resetTrigger}
+          selectedCategories={selectedCategory}
+        />
+
         <CustomRoute saveRoute={saveRoute} />
-        {savedRoutes && (
+        {savedRoutes.length > 0 && (
           <div className="section__saved-routes">
             <h2>Saved Routes</h2>
             {savedRoutes.map((route, index) => (
