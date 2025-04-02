@@ -22,7 +22,11 @@ export default function MapPage({ isClicked }) {
 
   return (
     <div className="section">
-      <div className="section__drawer">{isClicked && <SideBar />}</div>
+      {/* <div className="info-cards">
+        {selectedMonuments.map((monument) => (
+          <InfoCard key={monument.name} monument={monument} />
+        ))}
+      </div> */}
       <div className="section__map">
         <Map
           resetTrigger={resetTrigger}

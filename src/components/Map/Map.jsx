@@ -8,8 +8,6 @@ import { useLocation } from "react-router-dom";
 mapboxgl.accessToken =
   "pk.eyJ1Ijoicm9iZWxsYSIsImEiOiJjbThvYnRvajIwMHV2Mm1zYnh2bXo2a3RuIn0.25KNcBy5b9rKGa-4yvHKJA";
 
-// A custom hook that builds on useLocation to parse
-// the query string for you.
 function useQuery() {
   const { search } = useLocation();
 
@@ -43,13 +41,6 @@ export default function Map({ resetTrigger, selectedCategories }) {
 
   const fetchMonuments = async () => {
     try {
-      // const selectedCategories =
-      //   JSON.parse(localStorage.getItem("selectedCategories")) || [];
-
-      // const queryParams = selectedCategories.length
-      //   ? `?categories=${selectedCategories.join(",")}`
-      //   : "";
-
       const requestUrl = `http://localhost:5050/monuments?categories=${encodeURIComponent(
         query.get("categories")
       )}`;
@@ -276,17 +267,7 @@ export default function Map({ resetTrigger, selectedCategories }) {
   };
 
   const submitForm = async (e) => {
-    // setActiveFeature(placeName);
-    // const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
-    //   `<h3>${placeName}</h3>
-    //     <p>Coordinates:<br>Lng: ${lng.toFixed(4)}<br>Lat: ${lat.toFixed(4)}</p>`
-    // );
-    // new mapboxgl.Marker()
-    //   .setLngLat([lng, lat])
-    //   .addTo(map.current)
-    //   .setPopup(popup);
     e.preventDefault();
-
     addMonument();
   };
 

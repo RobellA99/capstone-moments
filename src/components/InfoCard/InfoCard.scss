@@ -1,0 +1,21 @@
+.info-card {
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.info-card__title {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.info-card__description {
+  font-size: 1rem;
+}
+
+.info-card__address {
+  font-size: 0.9rem;
+  color: gray;
+}

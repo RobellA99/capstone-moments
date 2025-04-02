@@ -8,8 +8,6 @@ export default function LandingPage() {
   const [categories, setCategories] = useState(null);
   const [clickedCardId, setClickedCardId] = useState(0);
 
-  const [selectedCategory, setSelectedCategory] = useState("");
-
   useEffect(() => {
     const path = window.location.pathname;
 
