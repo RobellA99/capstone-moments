@@ -17,8 +17,22 @@ export default function LandingPage() {
   }, []);
 
   const handleClick = (id) => {
-    setClickedCardId(id);
+    setClickedCardId((prevId) => (prevId === id ? null : id));
   };
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (!event.target.closest(".card__container-box")) {
+        setClickedCardId(null);
+      }
+    };
+
+    document.addEventListener("click", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, []);
 
   const handleSelectCategory = (category) => {
     let selectedCategories =
@@ -73,7 +87,10 @@ export default function LandingPage() {
               className={`card__container-box ${
                 clickedCardId === category.id ? "card__container-box--flip" : ""
               }`}
-              onClick={() => handleClick(category.id, category.category)}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleClick(category.id);
+              }}
               key={category.id}
             >
               <div

@@ -376,11 +376,13 @@ export default function Map({ resetTrigger, selectedCategories }) {
                 >
                   <option value="">Please choose one...</option>
 
-                  <option value="towers">Famous Towers and Structures</option>
+                  <option value="Famous Towers & Structures">
+                    Famous Towers & Structures
+                  </option>
                   <option value="Historic Landmarks">Historic Landmarks</option>
-                  <option value="royal">Royal Residences</option>
-                  <option value="modern">Modern Attractions</option>
-                  <option value="religious">
+                  <option value="Royal Residences">Royal Residences</option>
+                  <option value="Modern Attractions">Modern Attractions</option>
+                  <option value="Religious & Architectural Marvels">
                     Religious & Architectural Marvels
                   </option>
                   <option value="cultural">Cultural & Public Spaces</option>
