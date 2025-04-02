@@ -4,6 +4,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import "./Map.scss";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
+import InfoCard from "../InfoCard/InfoCard";
 
 mapboxgl.accessToken =
   "pk.eyJ1Ijoicm9iZWxsYSIsImEiOiJjbThvYnRvajIwMHV2Mm1zYnh2bXo2a3RuIn0.25KNcBy5b9rKGa-4yvHKJA";
@@ -27,6 +28,7 @@ export default function Map({ resetTrigger, selectedCategories }) {
   const [currentClickedAddress, setCurrentClickedAddress] = useState("");
 
   const [currentLocation, setCurrentLocation] = useState({});
+  const [monuments, setMonuments] = useState([]);
 
   const [monumentData, setMonumentData] = useState({
     name: "",
@@ -37,18 +39,52 @@ export default function Map({ resetTrigger, selectedCategories }) {
     location: "London, UK",
   });
 
+  const [viewInfoCards, setViewInfoCards] = useState(false);
+
   let query = useQuery();
 
-  const fetchMonuments = async () => {
-    try {
-      const requestUrl = `http://localhost:5050/monuments?categories=${encodeURIComponent(
-        query.get("categories")
-      )}`;
+  useEffect(() => {
+    monuments.forEach((monument) => {
+      const marker = new mapboxgl.Marker({ color: "orange" })
+        .setLngLat([monument.longitude, monument.latitude])
+        .setPopup(new mapboxgl.Popup().setHTML(`<h3>${monument.name}</h3>`))
+        .addTo(map.current);
 
+      marker.getElement().addEventListener("mouseenter", () => {
+        const popup = new mapboxgl.Popup({ offset: 25 })
+          .setHTML(`<h3>${monument.name}</h3>`)
+          .addTo(map.current);
+        marker.setPopup(popup);
+      });
+
+      marker.getElement().addEventListener("mouseleave", () => {
+        marker.getPopup().remove();
+      });
+
+      marker.getElement().addEventListener("click", (e) => {
+        const { lng, lat } = marker.getLngLat();
+        calculateProximity(lat, lng);
+        setShowModal(false);
+      });
+    });
+  }, [monuments]);
+
+  const fetchMonuments = async (useQueryParams) => {
+    try {
+      let requestUrl = null;
+
+      if (useQueryParams) {
+        requestUrl = `http://localhost:5050/monuments?categories=${encodeURIComponent(
+          query.get("categories")
+        )}`;
+      } else {
+        requestUrl = `http://localhost:5050/monuments`;
+      }
       const response = await axios.get(requestUrl);
       const monuments = response.data;
 
       if (!monuments.length) return;
+      setMonuments(monuments);
 
       monuments.forEach((monument) => {
         const marker = new mapboxgl.Marker({ color: "orange" })
@@ -79,17 +115,26 @@ export default function Map({ resetTrigger, selectedCategories }) {
   };
 
   useEffect(() => {
-    fetchMonuments();
+    fetchMonuments(true);
   }, [selectedCategories]);
 
   const fetchRoute = async () => {
     if (map.current._markers.length < 2) return;
 
-    const coords = map.current._markers
-      .slice(0, 24)
-      .map((marker) => {
-        const { lng, lat } = marker.getLngLat();
-        return `${lng},${lat}`;
+    // const coords = map.current._markers
+    //   .slice(0, 24)
+    //   .map((marker) => {
+    //     const { lng, lat } = marker.getLngLat();
+    //     return `${lng},${lat}`;
+    //   })
+    //   .join(";");
+
+    const journey = JSON.parse(localStorage.getItem("JOURNEY"));
+
+    const coords = journey
+      .map((journey) => {
+        const { longitude, latitude } = journey;
+        return `${longitude},${latitude}`;
       })
       .join(";");
 
@@ -229,9 +274,13 @@ export default function Map({ resetTrigger, selectedCategories }) {
     }
 
     try {
-      await axios.post("http://localhost:5050/monuments", monumentData);
+      // await axios.post("http://localhost:5050/monuments", monumentData);
 
-      fetchMonuments();
+      const journey = [...monuments, monumentData];
+
+      setMonuments(journey);
+
+      localStorage.setItem("JOURNEY", JSON.stringify(journey));
 
       setShowModal(false);
       setMonumentData({
@@ -242,7 +291,6 @@ export default function Map({ resetTrigger, selectedCategories }) {
         category: "",
         location: "London, UK",
       });
-      fetchRoute();
     } catch (error) {
       console.error("Error submitting form:", error);
     }
@@ -271,10 +319,29 @@ export default function Map({ resetTrigger, selectedCategories }) {
     addMonument();
   };
 
+  const handleButtonClick = () => {
+    setViewInfoCards(!viewInfoCards);
+  };
+
+  const loadPrevRoute = () => {
+    setMonuments(JSON.parse(localStorage.getItem("JOURNEY")));
+  };
+
   return (
-    <>
+    <div className="map-container">
+      <button onClick={handleButtonClick} className="map-container__button">
+        View Journey
+      </button>
       <div className="map-box">
-        <div ref={mapContainer} className="map-box__container"></div>
+        <div ref={mapContainer} className="map-box__container">
+          {viewInfoCards && (
+            <div className="info-cards-container">
+              {monuments.map((monument) => (
+                <InfoCard key={monument.id} monument={monument} />
+              ))}
+            </div>
+          )}
+        </div>
         {activeFeature && <p>Selected Location: {activeFeature}</p>}
       </div>
       {showModal && (
@@ -310,7 +377,7 @@ export default function Map({ resetTrigger, selectedCategories }) {
                   <option value="">Please choose one...</option>
 
                   <option value="towers">Famous Towers and Structures</option>
-                  <option value="landmarks">Historic Landmarks</option>
+                  <option value="Historic Landmarks">Historic Landmarks</option>
                   <option value="royal">Royal Residences</option>
                   <option value="modern">Modern Attractions</option>
                   <option value="religious">
@@ -324,6 +391,8 @@ export default function Map({ resetTrigger, selectedCategories }) {
           </form>
         </div>
       )}
-    </>
+      <button onClick={fetchRoute}>Generate Route</button>
+      <button onClick={loadPrevRoute}>Load Route</button>
+    </div>
   );
 }

@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 export default function LandingPage() {
   const [categories, setCategories] = useState(null);
-  const [clickedCardId, setClickedCardId] = useState(0);
+  const [clickedCardId, setClickedCardId] = useState(null);
 
   useEffect(() => {
     const path = window.location.pathname;
@@ -123,12 +123,12 @@ export default function LandingPage() {
         <Link
           to={{
             pathname: "/map",
-            search: `?categories=${categories
-              .find((category) => {
-                return category.id === clickedCardId;
-              })
-              .category.replace(/ /g, "")
-              .replace(/&/g, "%26")}`,
+            ...(clickedCardId && {
+              search: `?categories=${categories
+                .find((category) => category.id === clickedCardId)
+                .category.replace(/ /g, "")
+                .replace(/&/g, "%26")}`,
+            }),
           }}
         >
           <button className="button">Create Your Journey</button>

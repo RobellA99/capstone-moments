@@ -35,12 +35,7 @@ export default function App() {
       </div>
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route
-          path="/map"
-          element={
-            <MapPage menuDrawerOpen={menuDrawerOpen} isClicked={isClicked} />
-          }
-        />
+        <Route path="/map" element={<MapPage />} />
       </Routes>
       <Footer />
     </BrowserRouter>

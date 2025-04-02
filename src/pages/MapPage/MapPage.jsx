@@ -4,7 +4,7 @@ import CustomRoute from "../../components/CustomRoute/CustomRoute";
 import "./MapPage.scss";
 import SideBar from "../../components/SideBar/SideBar";
 
-export default function MapPage({ isClicked }) {
+export default function MapPage() {
   const [savedRoutes, setSavedRoutes] = useState([]);
   const [resetTrigger, setResetTrigger] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -22,11 +22,6 @@ export default function MapPage({ isClicked }) {
 
   return (
     <div className="section">
-      {/* <div className="info-cards">
-        {selectedMonuments.map((monument) => (
-          <InfoCard key={monument.name} monument={monument} />
-        ))}
-      </div> */}
       <div className="section__map">
         <Map
           resetTrigger={resetTrigger}
