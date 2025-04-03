@@ -106,7 +106,7 @@ export default function LandingPage() {
                     : ""
                 }`}
               >
-                <div className="card__container-side card__container-side-image--front"></div>
+                <img className="card__container-side card__container-side-image--front"></img>
                 <div className="card__container-side card__container-side-info--front">
                   <h2 className="card__container-side card__container-side-title--front">
                     {category.category}
@@ -128,9 +128,12 @@ export default function LandingPage() {
                   <h3 className="card__container-side card__container-side-info-title--back">
                     Description of Houses of Parliament
                   </h3>
-                  <p className="card__container-side card__container-side-info-text--back">
-                    Address
-                  </p>
+                  <ul className="card__container-side card__container-side-info-text--back">
+                    <li>Big Ben</li>
+                    <li>The Shard</li>
+                    <li>Tower Bridge</li>
+                    <li>The gherkin</li>
+                  </ul>
                 </div>
                 <button
                   className="card__container-side card__container-side-button--back"

@@ -12,7 +12,7 @@
     height: 550px;
     width: 100%;
     object-fit: cover;
-    object-position: 50% 20%;
+    object-position: 50% 70%;
     filter: contrast(-1);
     filter: saturate(1.5);
   }
@@ -33,14 +33,18 @@
 }
 
 .card {
-  background-color: lightgrey;
-
+  margin: 0 auto;
+  padding: 25px 0;
+  width: 90vw;
   &__container {
-    margin: 4px;
+    // margin: 4px;
     perspective: 1000px;
-    display: flex;
-    gap: 2rem;
-    flex-wrap: wrap;
+    // display: grid;
+    // flex-wrap: wrap;
+    display: grid;
+    grid-template: 1fr / 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 2.5rem;
   }
 
   &__container-box {
@@ -49,9 +53,10 @@
     transform-style: preserve-3d;
     transform: translateZ(-100px);
     transition: all 1s cubic-bezier(0.165, 0.84, 0.44, 1);
-    width: 45%;
     height: 300px;
     position: relative;
+    // margin: 1rem;
+    background-color: black;
 
     &--flip {
       transform: rotateY(180deg);
@@ -90,6 +95,7 @@
       transform: rotateY(180deg);
       opacity: 0;
       visibility: hidden;
+      height: 0;
     }
 
     &--hide {
@@ -126,8 +132,16 @@
     &--front {
       background-color: black;
       border: solid black 2px;
-      height: 5rem;
+      height: 100%;
       width: 100%;
+      position: relative;
+      z-index: -1;
+    }
+  }
+
+  &__container-side-title {
+    &--front {
+      margin: 0;
     }
   }
 }
