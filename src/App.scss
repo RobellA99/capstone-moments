@@ -1,13 +1,8 @@
 @use "./styles/partials/resets";
 
 .container {
-  display: flex;
-
-  &__button {
-    background-color: #3c6e71;
-
-    &--inverted {
-      background-color: #353535;
-    }
-  }
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+  z-index: 999999;
 }
