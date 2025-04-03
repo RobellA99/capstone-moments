@@ -36,11 +36,10 @@
   margin: 0 auto;
   padding: 25px 0;
   width: 90vw;
+  display: flex;
+  flex-direction: column;
   &__container {
-    // margin: 4px;
     perspective: 1000px;
-    // display: grid;
-    // flex-wrap: wrap;
     display: grid;
     grid-template: 1fr / 1fr 1fr;
     gap: 3rem;
@@ -55,12 +54,7 @@
     transition: all 1s cubic-bezier(0.165, 0.84, 0.44, 1);
     height: 300px;
     position: relative;
-    // margin: 1rem;
-    background-color: black;
-
-    &--flip {
-      transform: rotateY(180deg);
-    }
+    background-color: red;
 
     &:after {
       content: "";
@@ -146,10 +140,13 @@
   }
 }
 
-.button {
-  background-color: #7b76d5;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 2rem;
-  color: rgb(245, 244, 251);
+.journey {
+  align-self: center;
+  &__button {
+    background-color: #7b76d5;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+    color: rgb(245, 244, 251);
+  }
 }

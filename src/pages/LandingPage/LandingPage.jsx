@@ -9,6 +9,8 @@ export default function LandingPage() {
   const [categories, setCategories] = useState(null);
   const [clickedCardId, setClickedCardId] = useState(null);
 
+  const [selectedCategories, setSelectedCategories] = useState([]);
+
   useEffect(() => {
     const path = window.location.pathname;
 
@@ -37,15 +39,7 @@ export default function LandingPage() {
 
   const handleSelectCategory = (e, category) => {
     e.stopPropagation();
-    setSelectedCategories((prevSelected) => {
-      const updatedSelectedCategories = [...prevSelected];
-      if (updatedSelectedCategories.includes(category)) {
-        return updatedSelectedCategories.filter((cat) => cat !== category);
-      } else {
-        updatedSelectedCategories.push(category);
-        return updatedSelectedCategories;
-      }
-    });
+    setSelectedCategories([category, ...selectedCategories]);
   };
 
   const fetchCategory = async () => {
@@ -88,55 +82,36 @@ export default function LandingPage() {
         <div className="card__container">
           {categories.map((category) => (
             <article
-              className={`card__container-box ${
-                clickedCardId === category.id ? "card__container-box--flip" : ""
-              }`}
-              onClick={(e) => {
-                // e.stopPropagation();
-                // if (clickedCardId === category.id) {
-                handleClick(category.id);
-                // }
-              }}
+              className="card__container-box"
+              // onClick={(e) => {
+              //   handleClick(category.id);
+              //   // }
+              // }}
               key={category.id}
             >
-              <div
-                className={`card__container-side card__container-side--front ${
-                  clickedCardId === category.id
-                    ? "card__container-side--hide"
-                    : ""
-                }`}
-              >
-                <img className="card__container-side card__container-side-image--front"></img>
-                <div className="card__container-side card__container-side-info--front">
-                  <h2 className="card__container-side card__container-side-title--front">
+              <div className="card__container-side">
+                <img className="card__container-side-image"></img>
+                <div className="card__container-sid-info">
+                  <h2 className="card__container-side-title">
                     {category.category}
                   </h2>
                 </div>
               </div>
 
-              <div
-                className={`card__container-side "  ${
-                  clickedCardId === category.id
-                    ? "card__container-side--show"
-                    : "card__container-side--back"
-                }`}
-              >
-                <h2 className="card__container-side card__container-side-title--back">
-                  Landmarks
-                </h2>
-                <div className="card__container-side card__container-side-info--back">
-                  <h3 className="card__container-side card__container-side-info-title--back">
-                    Description of Houses of Parliament
-                  </h3>
-                  <ul className="card__container-side card__container-side-info-text--back">
-                    <li>Big Ben</li>
-                    <li>The Shard</li>
-                    <li>Tower Bridge</li>
-                    <li>The gherkin</li>
-                  </ul>
-                </div>
+              <h2 className="card__container-side-header">Landmarks</h2>
+              <div className="card__container-side-text">
+                <h3 className="card__container-side-text-header">
+                  Description of Houses of Parliament
+                </h3>
+
+                <ul className="card__container-side-text-list">
+                  <li>Big Ben</li>
+                  <li>The Shard</li>
+                  <li>Tower Bridge</li>
+                  <li>The gherkin</li>
+                </ul>
                 <button
-                  className="card__container-side card__container-side-button--back"
+                  className="card__container-side-button"
                   onClick={(e) => handleSelectCategory(e, category.category)}
                 >
                   {categories.includes(category.category)
@@ -149,17 +124,21 @@ export default function LandingPage() {
           ))}
         </div>
         <Link
+          className="journey"
           to={{
             pathname: "/map",
-            ...(clickedCardId && {
-              search: `?categories=${categories
-                .find((category) => category.id === clickedCardId)
-                .category.replace(/ /g, "")
-                .replace(/&/g, "%26")}`,
+            ...(selectedCategories.length > 0 && {
+              search: `?categories=${selectedCategories.map((cat) => {
+                return cat.replace(/&/g, "%26");
+              })}`,
+              // .replace(/&/g, "%26")}`,
+              // .find((category) => category.id === setSelectedCategoriesCardId)
+              // .category.
             }),
+            // )
           }}
         >
-          <button className="button">Create Your Journey</button>
+          <button className="journey__button">Create Your Journey</button>
         </Link>
       </div>
     </div>
