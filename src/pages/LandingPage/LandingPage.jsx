@@ -35,19 +35,17 @@ export default function LandingPage() {
   }, []);
 
   const handleSelectCategory = (category) => {
-    let selectedCategories =
-      JSON.parse(localStorage.getItem("selectedCategories")) || [];
-
-    if (selectedCategories.includes(category)) {
-      selectedCategories = selectedCategories.filter((cat) => cat !== category);
-    } else {
-      selectedCategories.push(category);
-    }
-
-    localStorage.setItem(
-      "selectedCategories",
-      JSON.stringify(selectedCategories)
-    );
+    setSelectedCategories((prevSelected) => {
+      const updatedSelectedCategories = [...prevSelected];
+      if (updatedSelectedCategories.includes(category)) {
+        // Remove category if already selected
+        return updatedSelectedCategories.filter((cat) => cat !== category);
+      } else {
+        // Add category if not selected
+        updatedSelectedCategories.push(category);
+        return updatedSelectedCategories;
+      }
+    });
   };
 
   const fetchCategory = async () => {
@@ -130,7 +128,9 @@ export default function LandingPage() {
                   className="card__container-side card__container-side-button--back"
                   onClick={() => handleSelectCategory(category.category)}
                 >
-                  Select Category
+                  {categories.includes(category.category)
+                    ? "Deselect Category"
+                    : "Select Category"}
                   <ArrowSvg />
                 </button>
               </div>
