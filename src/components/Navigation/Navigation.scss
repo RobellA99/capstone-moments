@@ -4,7 +4,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem;
+  padding: 1rem 2rem 1rem 1rem;
   flex-direction: row;
   width: 100%;
 
@@ -13,6 +13,7 @@
     color: #7b76d5;
     font-weight: 700;
     cursor: pointer;
+    font-size: 1.7rem;
   }
 
   &__header {
@@ -22,8 +23,9 @@
   &__container {
     display: flex;
     justify-content: space-between;
-    width: 15%;
+    width: 8%;
     align-items: center;
+    font-size: 1.3rem;
   }
 
   &__link {

@@ -42,17 +42,23 @@
 
 .map-container-wrapper {
   display: flex;
-  width: 70%;
+  width: 79%;
   margin: 0.5rem auto;
   position: absolute;
   bottom: 0;
-  left: 8rem;
+  left: 7.5rem;
   z-index: 999;
   justify-content: space-between;
   transition: width 0.3s ease;
 
   &--view {
-    width: 60%;
+    width: 63%;
+  }
+
+  &__container {
+    display: flex;
+    width: 15rem;
+    justify-content: space-between;
   }
 
   &__button {
@@ -62,6 +68,6 @@
     background-color: #7b76d5;
     color: rgb(245, 244, 251);
     cursor: pointer;
-    margin-right: 0.5rem;
+    // margin-right: 0.5rem;
   }
 }

@@ -415,7 +415,7 @@ export default function Map({
               viewJourney ? "map-container-wrapper--view" : ""
             }`}
           >
-            <div>
+            <div className="map-container-wrapper__container">
               <button
                 className="map-container-wrapper__button"
                 onClick={fetchRoute}

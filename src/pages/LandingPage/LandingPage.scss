@@ -9,10 +9,10 @@
   }
 
   &__image {
-    height: 550px;
+    height: 600px;
     width: 100%;
     object-fit: cover;
-    object-position: 50% 70%;
+    object-position: 50% 55%;
     filter: contrast(-1);
     filter: saturate(1.5);
   }
