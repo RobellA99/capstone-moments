@@ -34,7 +34,9 @@ export default function LandingPage() {
     };
   }, []);
 
-  const handleSelectCategory = (category) => {
+  const handleSelectCategory = (e, category) => {
+    console.log("here");
+    e.stopPropagation();
     setSelectedCategories((prevSelected) => {
       const updatedSelectedCategories = [...prevSelected];
       if (updatedSelectedCategories.includes(category)) {
@@ -86,8 +88,10 @@ export default function LandingPage() {
                 clickedCardId === category.id ? "card__container-box--flip" : ""
               }`}
               onClick={(e) => {
-                e.stopPropagation();
+                // e.stopPropagation();
+                // if (clickedCardId === category.id) {
                 handleClick(category.id);
+                // }
               }}
               key={category.id}
             >
@@ -126,7 +130,7 @@ export default function LandingPage() {
                 </div>
                 <button
                   className="card__container-side card__container-side-button--back"
-                  onClick={() => handleSelectCategory(category.category)}
+                  onClick={(e) => handleSelectCategory(e, category.category)}
                 >
                   {categories.includes(category.category)
                     ? "Deselect Category"

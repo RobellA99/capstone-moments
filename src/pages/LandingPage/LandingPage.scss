@@ -84,6 +84,10 @@
       opacity: 0;
       visibility: hidden;
     }
+
+    &-button--back {
+      z-index: 999;
+    }
   }
 
   &__container-side-image {

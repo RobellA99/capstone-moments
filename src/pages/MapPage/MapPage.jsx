@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import Map from "../../components/Map/Map";
 import CustomRoute from "../../components/CustomRoute/CustomRoute";
 import "./MapPage.scss";
-import SideBar from "../../components/SideBar/SideBar";
 
 export default function MapPage() {
   const [savedRoutes, setSavedRoutes] = useState([]);

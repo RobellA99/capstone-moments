@@ -129,9 +129,9 @@ export default function Map({ resetTrigger, selectedCategories }) {
     //   })
     //   .join(";");
 
-    const journey = JSON.parse(localStorage.getItem("JOURNEY"));
+    // const journey = JSON.parse(localStorage.getItem("JOURNEY"));
 
-    const coords = journey
+    const coords = monuments
       .map((journey) => {
         const { longitude, latitude } = journey;
         return `${longitude},${latitude}`;
@@ -144,8 +144,6 @@ export default function Map({ resetTrigger, selectedCategories }) {
       );
 
       const data = response.data;
-
-      console.log("hey", response.data);
 
       if (data.routes.length > 0) {
         const routeGeometry = data.routes[0].geometry;
@@ -274,8 +272,6 @@ export default function Map({ resetTrigger, selectedCategories }) {
     }
 
     try {
-      // await axios.post("http://localhost:5050/monuments", monumentData);
-
       const journey = [...monuments, monumentData];
 
       setMonuments(journey);
@@ -324,7 +320,10 @@ export default function Map({ resetTrigger, selectedCategories }) {
   };
 
   const loadPrevRoute = () => {
-    setMonuments(JSON.parse(localStorage.getItem("JOURNEY")));
+    setMonuments([
+      ...monuments,
+      ...JSON.parse(localStorage.getItem("JOURNEY")),
+    ]);
   };
 
   return (
@@ -341,6 +340,20 @@ export default function Map({ resetTrigger, selectedCategories }) {
               ))}
             </div>
           )}
+          <div className="map-container-wrapper">
+            <button
+              className="map-container-wrapper__button"
+              onClick={fetchRoute}
+            >
+              Generate Route
+            </button>
+            <button
+              className="map-container-wrapper__button"
+              onClick={loadPrevRoute}
+            >
+              Load Route
+            </button>
+          </div>
         </div>
         {activeFeature && <p>Selected Location: {activeFeature}</p>}
       </div>
@@ -393,8 +406,6 @@ export default function Map({ resetTrigger, selectedCategories }) {
           </form>
         </div>
       )}
-      <button onClick={fetchRoute}>Generate Route</button>
-      <button onClick={loadPrevRoute}>Load Route</button>
     </div>
   );
 }
