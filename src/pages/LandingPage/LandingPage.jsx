@@ -35,15 +35,12 @@ export default function LandingPage() {
   }, []);
 
   const handleSelectCategory = (e, category) => {
-    console.log("here");
     e.stopPropagation();
     setSelectedCategories((prevSelected) => {
       const updatedSelectedCategories = [...prevSelected];
       if (updatedSelectedCategories.includes(category)) {
-        // Remove category if already selected
         return updatedSelectedCategories.filter((cat) => cat !== category);
       } else {
-        // Add category if not selected
         updatedSelectedCategories.push(category);
         return updatedSelectedCategories;
       }

@@ -1,14 +1,13 @@
 .custom-route {
   display: flex;
-  justify-content: center;
-  padding: 1rem 0 5rem;
-
+  align-items: center;
   &__button {
-    border-radius: 2rem;
-    color: #d9d9d9;
-    background-color: #2e2a88;
+    border-radius: 0.5rem;
     border: none;
-    padding: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: #7b76d5;
+    color: rgb(245, 244, 251);
     cursor: pointer;
+    margin-right: 0.5rem;
   }
 }

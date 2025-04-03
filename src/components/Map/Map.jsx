@@ -5,6 +5,7 @@ import "./Map.scss";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import InfoCard from "../InfoCard/InfoCard";
+import CustomRoute from "../CustomRoute/CustomRoute";
 
 mapboxgl.accessToken =
   "pk.eyJ1Ijoicm9iZWxsYSIsImEiOiJjbThvYnRvajIwMHV2Mm1zYnh2bXo2a3RuIn0.25KNcBy5b9rKGa-4yvHKJA";
@@ -15,7 +16,11 @@ function useQuery() {
   return React.useMemo(() => new URLSearchParams(search), [search]);
 }
 
-export default function Map({ resetTrigger, selectedCategories }) {
+export default function Map({
+  resetTrigger,
+  selectedCategories,
+  setResetTrigger,
+}) {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const markersRef = useRef([]);
@@ -40,6 +45,13 @@ export default function Map({ resetTrigger, selectedCategories }) {
   });
 
   const [viewInfoCards, setViewInfoCards] = useState(false);
+  const [savedRoutes, setSavedRoutes] = useState([]);
+  const [viewJourney, setViewJourney] = useState(false);
+
+  const saveRoute = (routeName) => {
+    setSavedRoutes((prevRoutes) => [...prevRoutes, routeName]);
+    setResetTrigger((prev) => !prev);
+  };
 
   let query = useQuery();
 
@@ -84,6 +96,7 @@ export default function Map({ resetTrigger, selectedCategories }) {
       const monuments = response.data;
 
       if (!monuments.length) return;
+
       setMonuments(monuments);
 
       monuments.forEach((monument) => {
@@ -91,6 +104,8 @@ export default function Map({ resetTrigger, selectedCategories }) {
           .setLngLat([monument.longitude, monument.latitude])
           .setPopup(new mapboxgl.Popup().setHTML(`<h3>${monument.name}</h3>`))
           .addTo(map.current);
+
+        markersRef.current.push(marker);
 
         marker.getElement().addEventListener("mouseenter", () => {
           const popup = new mapboxgl.Popup({ offset: 25 })
@@ -120,17 +135,6 @@ export default function Map({ resetTrigger, selectedCategories }) {
 
   const fetchRoute = async () => {
     if (map.current._markers.length < 2) return;
-
-    // const coords = map.current._markers
-    //   .slice(0, 24)
-    //   .map((marker) => {
-    //     const { lng, lat } = marker.getLngLat();
-    //     return `${lng},${lat}`;
-    //   })
-    //   .join(";");
-
-    // const journey = JSON.parse(localStorage.getItem("JOURNEY"));
-
     const coords = monuments
       .map((journey) => {
         const { longitude, latitude } = journey;
@@ -317,6 +321,7 @@ export default function Map({ resetTrigger, selectedCategories }) {
 
   const handleButtonClick = () => {
     setViewInfoCards(!viewInfoCards);
+    setViewJourney((prevState) => !prevState);
   };
 
   const loadPrevRoute = () => {
@@ -325,6 +330,66 @@ export default function Map({ resetTrigger, selectedCategories }) {
       ...JSON.parse(localStorage.getItem("JOURNEY")),
     ]);
   };
+
+  const handleCardClick = (monument) => {
+    if (!map.current) return;
+
+    const { longitude, latitude } = monument;
+    const marker = markersRef.current.find(
+      (m) => m.getLngLat().lng === longitude && m.getLngLat().lat === latitude
+    );
+
+    if (marker) {
+      map.current.flyTo({
+        center: [longitude, latitude],
+        zoom: 14,
+        essential: true,
+      });
+
+      marker.togglePopup();
+    } else {
+      console.log("No marker found for this monument.");
+    }
+  };
+
+  const handleDeleteMarker = (monument) => {
+    console.log("Deleting monument:", monument);
+
+    setMonuments((prevMonuments) => {
+      const updatedMonuments = prevMonuments.filter(
+        (m) => m.id !== monument.id
+      );
+      console.log("Updated monuments:", updatedMonuments);
+      return updatedMonuments;
+    });
+
+    const markerIndex = markersRef.current.findIndex(
+      (m) =>
+        m.getLngLat().lng === monument.longitude &&
+        m.getLngLat().lat === monument.latitude
+    );
+
+    if (markerIndex !== -1) {
+      console.log(
+        "Removing marker from Mapbox:",
+        markersRef.current[markerIndex]
+      );
+      markersRef.current[markerIndex].remove();
+      markersRef.current.splice(markerIndex, 1);
+    } else {
+      console.log("Marker not found for deletion");
+    }
+  };
+
+  useEffect(() => {
+    markersRef.current.forEach((marker, index) => {
+      const monument = monuments[index];
+      if (!monument) {
+        marker.remove();
+        markersRef.current.splice(index, 1);
+      }
+    });
+  }, [monuments]);
 
   return (
     <div className="map-container">
@@ -336,24 +401,46 @@ export default function Map({ resetTrigger, selectedCategories }) {
           {viewInfoCards && (
             <div className="info-cards-container">
               {monuments.map((monument) => (
-                <InfoCard key={monument.id} monument={monument} />
+                <InfoCard
+                  key={monument.id}
+                  monument={monument}
+                  handleCardClick={handleCardClick}
+                  handleDeleteMarker={handleDeleteMarker}
+                />
               ))}
             </div>
           )}
-          <div className="map-container-wrapper">
-            <button
-              className="map-container-wrapper__button"
-              onClick={fetchRoute}
-            >
-              Generate Route
-            </button>
-            <button
-              className="map-container-wrapper__button"
-              onClick={loadPrevRoute}
-            >
-              Load Route
-            </button>
+          <div
+            className={`map-container-wrapper ${
+              viewJourney ? "map-container-wrapper--view" : ""
+            }`}
+          >
+            <div>
+              <button
+                className="map-container-wrapper__button"
+                onClick={fetchRoute}
+              >
+                Generate Route
+              </button>
+              <button
+                className="map-container-wrapper__button"
+                onClick={loadPrevRoute}
+              >
+                Load Route
+              </button>
+            </div>
+            <CustomRoute saveRoute={saveRoute} />
           </div>
+        </div>
+        <div>
+          {/* {savedRoutes.length > 0 && (
+            <div className="section__saved-routes">
+              <h2>Saved Routes</h2>
+              {savedRoutes.map((route, index) => (
+                <p key={index}>{route}</p>
+              ))}
+            </div>
+          )} */}
         </div>
         {activeFeature && <p>Selected Location: {activeFeature}</p>}
       </div>

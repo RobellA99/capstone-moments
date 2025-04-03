@@ -27,6 +27,7 @@
   z-index: 10;
   padding: 1rem;
   border-radius: 8px;
+  transition: all 0.5s;
 }
 
 .map-box {
@@ -41,13 +42,19 @@
 
 .map-container-wrapper {
   display: flex;
-  justify-content: space-between;
-  width: 50%;
+  width: 70%;
   margin: 0.5rem auto;
   position: absolute;
   bottom: 0;
   left: 8rem;
   z-index: 999;
+  justify-content: space-between;
+  transition: width 0.3s ease;
+
+  &--view {
+    width: 60%;
+  }
+
   &__button {
     border-radius: 0.5rem;
     border: none;
@@ -55,5 +62,6 @@
     background-color: #7b76d5;
     color: rgb(245, 244, 251);
     cursor: pointer;
+    margin-right: 0.5rem;
   }
 }

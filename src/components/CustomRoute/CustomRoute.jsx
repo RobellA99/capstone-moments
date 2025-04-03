@@ -6,7 +6,7 @@ export default function CustomRoute({ saveRoute }) {
   const [routeName, setRouteName] = useState("");
 
   const handleSaveClick = () => {
-    setShowInput(true);
+    setShowInput(!showInput);
   };
 
   const handleSubmit = () => {
