@@ -42,7 +42,7 @@
 
 .map-container-wrapper {
   display: flex;
-  width: 79%;
+  width: 74%;
   margin: 0.5rem auto;
   position: absolute;
   bottom: 0;
@@ -57,8 +57,14 @@
 
   &__container {
     display: flex;
-    width: 15rem;
+    width: 30rem;
     justify-content: space-between;
+  }
+
+  &__section {
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
   }
 
   &__button {

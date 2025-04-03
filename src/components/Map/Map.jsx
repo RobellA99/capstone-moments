@@ -134,13 +134,18 @@ export default function Map({
   }, [selectedCategories]);
 
   const fetchRoute = async () => {
-    if (map.current._markers.length < 2) return;
-    const coords = monuments
-      .map((journey) => {
-        const { longitude, latitude } = journey;
-        return `${longitude},${latitude}`;
-      })
-      .join(";");
+    const uniqueCoordinates = Array.from(
+      new Set(
+        monuments.map((journey) => `${journey.longitude},${journey.latitude}`)
+      )
+    );
+
+    if (uniqueCoordinates.length < 2) {
+      console.error("Not enough unique coordinates to generate a route.");
+      return;
+    }
+
+    const coords = uniqueCoordinates.join(";");
 
     try {
       const response = await axios.get(
@@ -391,6 +396,22 @@ export default function Map({
     });
   }, [monuments]);
 
+  const clearRoute = () => {
+    if (map.current.getLayer("route")) {
+      map.current.removeLayer("route");
+    }
+
+    if (map.current.getSource("route")) {
+      map.current.removeSource("route");
+    }
+
+    markersRef.current.forEach((marker) => {
+      marker.addTo(map.current);
+    });
+    setActiveFeature("");
+    setCurrentRoute(null);
+  };
+
   return (
     <div className="map-container">
       <button onClick={handleButtonClick} className="map-container__button">
@@ -418,16 +439,25 @@ export default function Map({
             <div className="map-container-wrapper__container">
               <button
                 className="map-container-wrapper__button"
-                onClick={fetchRoute}
-              >
-                Generate Route
-              </button>
-              <button
-                className="map-container-wrapper__button"
                 onClick={loadPrevRoute}
               >
-                Load Route
+                Load Markers
               </button>
+              <div className="map-container-wrapper__section">
+                <button
+                  className="map-container-wrapper__button"
+                  onClick={fetchRoute}
+                >
+                  Generate Route
+                </button>
+
+                <button
+                  className="map-container-wrapper__button"
+                  onClick={clearRoute}
+                >
+                  Clear Route
+                </button>
+              </div>
             </div>
             <CustomRoute saveRoute={saveRoute} />
           </div>
