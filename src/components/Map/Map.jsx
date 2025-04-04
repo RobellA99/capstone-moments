@@ -56,6 +56,9 @@ export default function Map({
   let query = useQuery();
 
   useEffect(() => {
+    markersRef.current.forEach((marker) => marker.remove());
+    markersRef.current = [];
+
     monuments.forEach((monument) => {
       const marker = new mapboxgl.Marker({ color: "orange" })
         .setLngLat([monument.longitude, monument.latitude])
@@ -73,11 +76,17 @@ export default function Map({
         marker.getPopup().remove();
       });
 
-      marker.getElement().addEventListener("click", (e) => {
+      marker.getElement().addEventListener("click", () => {
         const { lng, lat } = marker.getLngLat();
-        calculateProximity(lat, lng);
-        setShowModal(false);
+        map.current.flyTo({
+          center: [lng, lat],
+          zoom: 14,
+          essential: true,
+        });
+        marker.togglePopup();
       });
+
+      markersRef.current.push(marker);
     });
   }, [monuments]);
 
@@ -94,8 +103,6 @@ export default function Map({
             categories
           )}`;
         }
-      } else {
-        requestUrl = `http://localhost:5050/monuments`;
       }
 
       const response = await axios.get(requestUrl);
@@ -141,7 +148,6 @@ export default function Map({
         const routeGeometry = data.routes[0].geometry;
         setCurrentRoute(routeGeometry);
 
-        // Update or add the route line layer
         if (map.current.getSource("route")) {
           map.current.getSource("route").setData({
             type: "Feature",
@@ -284,16 +290,45 @@ export default function Map({
       !monumentData.description ||
       !monumentData.category
     ) {
-      alert("Please enter a name and description and category!");
+      alert("Please enter a name, description, and category!");
       return;
     }
 
     try {
-      const journey = [...monuments, monumentData];
+      const newMonument = {
+        ...monumentData,
+        id: monumentData.id,
+      };
 
-      setMonuments(journey);
+      setMonuments((prevMonuments) => [...prevMonuments, newMonument]);
 
-      localStorage.setItem("JOURNEY", JSON.stringify(journey));
+      const marker = new mapboxgl.Marker({ color: "orange" })
+        .setLngLat([newMonument.longitude, newMonument.latitude])
+        .setPopup(new mapboxgl.Popup().setHTML(`<h3>${newMonument.name}</h3>`))
+        .addTo(map.current);
+
+      marker.getElement().addEventListener("mouseenter", () => {
+        const popup = new mapboxgl.Popup({ offset: 25 })
+          .setHTML(`<h3>${newMonument.name}</h3>`)
+          .addTo(map.current);
+        marker.setPopup(popup);
+      });
+
+      marker.getElement().addEventListener("mouseleave", () => {
+        marker.getPopup().remove();
+      });
+
+      marker.getElement().addEventListener("click", () => {
+        const { lng, lat } = marker.getLngLat();
+        map.current.flyTo({
+          center: [lng, lat],
+          zoom: 14,
+          essential: true,
+        });
+        marker.togglePopup();
+      });
+
+      markersRef.current.push(marker);
 
       setShowModal(false);
       setMonumentData({
@@ -305,7 +340,7 @@ export default function Map({
         location: "London, UK",
       });
     } catch (error) {
-      console.error("Error submitting form:", error);
+      console.error("Error adding monument:", error);
     }
   };
 
