@@ -307,28 +307,31 @@ export default function LandingPage() {
                   </h2>
                 </div>
               </div>
-
-              <h2 className="card__container-side-header">Landmarks</h2>
-              <div className="card__container-side-text">
-                <ul className="card__container-side-text-list">
-                  {categoryMonuments[category.category] &&
-                  categoryMonuments[category.category].length > 0 ? (
-                    categoryMonuments[category.category].map(
-                      (monument, index) => <li key={index}>{monument.name}</li>
-                    )
-                  ) : (
-                    <li>No monuments available</li>
-                  )}
-                </ul>
-                <button
-                  className="card__container-side-button"
-                  onClick={(e) => handleSelectCategory(e, category.category)}
-                >
-                  {categories.includes(category.category)
-                    ? "Deselect Category"
-                    : "Select Category"}
-                  <ArrowSvg />
-                </button>
+              <div className="card__container-side-container">
+                <h2 className="card__container-side-header">Landmarks</h2>
+                <div className="card__container-side-text">
+                  <ul className="card__container-side-text-list">
+                    {categoryMonuments[category.category] &&
+                    categoryMonuments[category.category].length > 0 ? (
+                      categoryMonuments[category.category].map(
+                        (monument, index) => (
+                          <li key={index}>{monument.name}</li>
+                        )
+                      )
+                    ) : (
+                      <li>No monuments available</li>
+                    )}
+                  </ul>
+                  <button
+                    className="card__container-side-button"
+                    onClick={(e) => handleSelectCategory(e, category.category)}
+                  >
+                    {categories.includes(category.category)
+                      ? "Deselect Category"
+                      : "Select Category"}
+                    <ArrowSvg />
+                  </button>
+                </div>
               </div>
             </article>
           ))}
