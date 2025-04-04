@@ -16,17 +16,12 @@ function useQuery() {
   return React.useMemo(() => new URLSearchParams(search), [search]);
 }
 
-export default function Map({
-  resetTrigger,
-  selectedCategories,
-  setResetTrigger,
-}) {
+export default function Map({ resetTrigger, selectedCategories }) {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const markersRef = useRef([]);
   const formRef = useRef(null);
   const mapContainerRef = useRef(null);
-  const routeSource = useRef(null);
   const [activeFeature, setActiveFeature] = useState("");
   const [currentRoute, setCurrentRoute] = useState(null);
 
@@ -57,20 +52,15 @@ export default function Map({
   const saveRoute = (routeName, tags) => {
     const newRoute = {
       name: routeName,
-      tags: tags.split(",").map((tag) => tag.trim()), // Split tags by commas and trim whitespace
-      route: currentRoute, // Save the current route geometry
+      tags: tags.split(",").map((tag) => tag.trim()),
+      route: currentRoute,
     };
 
     const updatedRoutes = [...savedRoutes, newRoute];
     setSavedRoutes(updatedRoutes);
 
-    // Save to local storage
     localStorage.setItem("SAVED_ROUTES", JSON.stringify(updatedRoutes));
     alert("Route saved successfully!");
-  };
-
-  const toggleSavedRoutes = () => {
-    setShowSavedRoutes((prev) => !prev);
   };
 
   let query = useQuery();
@@ -85,16 +75,16 @@ export default function Map({
         .setPopup(new mapboxgl.Popup().setHTML(`<h3>${monument.name}</h3>`))
         .addTo(map.current);
 
-      marker.getElement().addEventListener("mouseenter", () => {
-        const popup = new mapboxgl.Popup({ offset: 25 })
-          .setHTML(`<h3>${monument.name}</h3>`)
-          .addTo(map.current);
-        marker.setPopup(popup);
-      });
+      // marker.getElement().addEventListener("mouseenter", () => {
+      //   const popup = new mapboxgl.Popup({ offset: 25 })
+      //     .setHTML(`<h3>${monument.name}</h3>`)
+      //     .addTo(map.current);
+      //   marker.setPopup(popup);
+      // });
 
-      marker.getElement().addEventListener("mouseleave", () => {
-        marker.getPopup().remove();
-      });
+      // marker.getElement().addEventListener("mouseleave", () => {
+      //   marker.getPopup().remove();
+      // });
 
       marker.getElement().addEventListener("click", () => {
         const { lng, lat } = marker.getLngLat();
@@ -552,7 +542,7 @@ export default function Map({
             <CustomRoute saveRoute={saveRoute} />
           </div>
         </div>
-        {showSavedRoutes && (
+        {/* {showSavedRoutes && (
           <div className="saved-routes-container">
             <h2>Saved Routes</h2>
             {savedRoutes.length > 0 ? (
@@ -574,8 +564,7 @@ export default function Map({
               <p>No saved routes available.</p>
             )}
           </div>
-        )}
-        {activeFeature && <p>Selected Location: {activeFeature}</p>}
+        )} */}
       </div>
       {showModal && (
         <div className="modal">
@@ -583,24 +572,26 @@ export default function Map({
           <form onSubmit={submitForm} className="modal__form">
             <div className="modal__form-container">
               <h2 className="modal__form-container-header">Add a Marker</h2>
-              <fieldset>
-                <label className="modal__form-container-label">
-                  <h3>Name:</h3>
-                  <input
-                    type="text"
-                    name="name"
-                    value={monumentData.name}
-                    onChange={handleInputChange}
-                  />
-                </label>
-                <label className="modal__form-container-label">
-                  <h3>Description:</h3>
-                  <textarea
-                    name="description"
-                    value={monumentData.description}
-                    onChange={handleInputChange}
-                  />
-                </label>
+              <fieldset className="modal__form-container-fieldset">
+                <div className="modal__form-container-container">
+                  <label className="modal__form-container-label">
+                    <h3>Name:</h3>
+                    <input
+                      type="text"
+                      name="name"
+                      value={monumentData.name}
+                      onChange={handleInputChange}
+                    />
+                  </label>
+                  <label className="modal__form-container-label">
+                    <h3>Description:</h3>
+                    <textarea
+                      name="description"
+                      value={monumentData.description}
+                      onChange={handleInputChange}
+                    />
+                  </label>
+                </div>
                 <h3>Category:</h3>
                 <select
                   name="category"

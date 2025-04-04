@@ -51,7 +51,7 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
     justify-content: center;
-    align-items: start;
+    align-items: stretch;
     margin: 0 auto 3rem;
     max-width: 1200px;
   }
@@ -65,7 +65,7 @@
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    height: 500px;
+    height: 700px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -78,15 +78,36 @@
 
   &__container-side {
     position: relative;
-    height: 500px;
     background-color: #f9f9f9;
-    padding: 1rem;
+    overflow: hidden;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+
+    &-image {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      transition: transform 5s;
+
+      &:hover {
+        transform: scale(1.4);
+      }
+    }
 
     &-container {
-      height: 500px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 1rem;
     }
 
     &-text {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
       &-list {
         list-style: none;
         padding: 0;
@@ -112,7 +133,7 @@
       font-size: 0.9rem;
       cursor: pointer;
       transition: background-color 0.3s ease;
-      margin-top: 2rem;
+      margin-top: auto;
 
       &:hover {
         background-color: #5a54b5;
