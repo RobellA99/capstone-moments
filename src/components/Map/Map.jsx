@@ -340,8 +340,11 @@ export default function Map({
     if (!map.current) return;
 
     const { longitude, latitude } = monument;
+
     const marker = markersRef.current.find(
-      (m) => m.getLngLat().lng === longitude && m.getLngLat().lat === latitude
+      (m) =>
+        m.getLngLat().lng.toFixed(6) === longitude.toFixed(6) &&
+        m.getLngLat().lat.toFixed(6) === latitude.toFixed(6)
     );
 
     if (marker) {
@@ -356,7 +359,6 @@ export default function Map({
       console.log("No marker found for this monument.");
     }
   };
-
   const handleDeleteMarker = (monument) => {
     console.log("Deleting monument:", monument);
 
@@ -370,8 +372,8 @@ export default function Map({
 
     const markerIndex = markersRef.current.findIndex(
       (m) =>
-        m.getLngLat().lng === monument.longitude &&
-        m.getLngLat().lat === monument.latitude
+        m.getLngLat().lng.toFixed(6) === monument.longitude.toFixed(6) &&
+        m.getLngLat().lat.toFixed(6) === monument.latitude.toFixed(6)
     );
 
     if (markerIndex !== -1) {
@@ -387,12 +389,16 @@ export default function Map({
   };
 
   useEffect(() => {
-    markersRef.current.forEach((marker, index) => {
-      const monument = monuments[index];
-      if (!monument) {
-        marker.remove();
-        markersRef.current.splice(index, 1);
-      }
+    markersRef.current.forEach((marker) => marker.remove());
+    markersRef.current = [];
+
+    monuments.forEach((monument) => {
+      const marker = new mapboxgl.Marker({ color: "orange" })
+        .setLngLat([monument.longitude, monument.latitude])
+        .setPopup(new mapboxgl.Popup().setHTML(`<h3>${monument.name}</h3>`))
+        .addTo(map.current);
+
+      markersRef.current.push(marker);
     });
   }, [monuments]);
 

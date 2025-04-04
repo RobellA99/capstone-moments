@@ -310,10 +310,6 @@ export default function LandingPage() {
 
               <h2 className="card__container-side-header">Landmarks</h2>
               <div className="card__container-side-text">
-                <h3 className="card__container-side-text-header">
-                  Description of Category
-                </h3>
-
                 <ul className="card__container-side-text-list">
                   {categoryMonuments[category.category] &&
                   categoryMonuments[category.category].length > 0 ? (
