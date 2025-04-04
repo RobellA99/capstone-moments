@@ -2,41 +2,46 @@ import { useState } from "react";
 import "./CustomRoute.scss";
 
 export default function CustomRoute({ saveRoute }) {
-  const [showInput, setShowInput] = useState(false);
   const [routeName, setRouteName] = useState("");
+  const [tags, setTags] = useState("");
+  const [showInputs, setShowInputs] = useState(false); // Toggle visibility of inputs
 
-  const handleSaveClick = () => {
-    setShowInput(!showInput);
-  };
-
-  const handleSubmit = () => {
-    if (!routeName || routeName.length < 5) {
-      alert("Please enter a name with at least 5 characters");
+  const handleSave = () => {
+    if (!routeName) {
+      alert("Please enter a route name!");
       return;
     }
-    if (routeName) {
-      saveRoute(routeName);
-      setShowInput(false);
-      setRouteName("");
-    }
+    saveRoute(routeName, tags);
+    setRouteName("");
+    setTags("");
+    setShowInputs(false); // Hide inputs after saving
   };
 
   return (
     <div className="custom-route">
-      <button className="custom-route__button" onClick={handleSaveClick}>
+      <button
+        className="custom-route__button"
+        onClick={() => setShowInputs((prev) => !prev)}
+      >
         Save Custom Route
       </button>
-
-      {showInput && (
-        <div className="custom-route__input-container">
+      {showInputs && (
+        <div className="custom-route__inputs">
           <input
             type="text"
-            className="custom-route__input"
-            placeholder="Enter Name"
+            placeholder="Route Name"
             value={routeName}
             onChange={(e) => setRouteName(e.target.value)}
+            className="custom-route__input"
           />
-          <button className="custom-route__submit" onClick={handleSubmit}>
+          <input
+            type="text"
+            placeholder="Tags (comma-separated)"
+            value={tags}
+            onChange={(e) => setTags(e.target.value)}
+            className="custom-route__input"
+          />
+          <button className="custom-route__button" onClick={handleSave}>
             Save
           </button>
         </div>

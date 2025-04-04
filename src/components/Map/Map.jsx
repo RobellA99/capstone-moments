@@ -47,13 +47,30 @@ export default function Map({
   });
 
   const [viewInfoCards, setViewInfoCards] = useState(false);
-  const [savedRoutes, setSavedRoutes] = useState([]);
+  const [savedRoutes, setSavedRoutes] = useState(
+    JSON.parse(localStorage.getItem("SAVED_ROUTES")) || []
+  );
   const [viewJourney, setViewJourney] = useState(false);
   const [startingMarker, setStartingMarker] = useState(null);
+  const [showSavedRoutes, setShowSavedRoutes] = useState(false);
 
-  const saveRoute = (routeName) => {
-    setSavedRoutes((prevRoutes) => [...prevRoutes, routeName]);
-    setResetTrigger((prev) => !prev);
+  const saveRoute = (routeName, tags) => {
+    const newRoute = {
+      name: routeName,
+      tags: tags.split(",").map((tag) => tag.trim()), // Split tags by commas and trim whitespace
+      route: currentRoute, // Save the current route geometry
+    };
+
+    const updatedRoutes = [...savedRoutes, newRoute];
+    setSavedRoutes(updatedRoutes);
+
+    // Save to local storage
+    localStorage.setItem("SAVED_ROUTES", JSON.stringify(updatedRoutes));
+    alert("Route saved successfully!");
+  };
+
+  const toggleSavedRoutes = () => {
+    setShowSavedRoutes((prev) => !prev);
   };
 
   let query = useQuery();
@@ -507,42 +524,57 @@ export default function Map({
               viewJourney ? "map-container-wrapper--view" : ""
             }`}
           >
-            <div className="map-container-wrapper__container">
-              <button
-                className="map-container-wrapper__button"
-                onClick={loadPrevRoute}
-              >
-                Load Markers
-              </button>
-              <div className="map-container-wrapper__section">
+            <div className="map-container-wrapper__box">
+              <div className="map-container-wrapper__container">
                 <button
                   className="map-container-wrapper__button"
-                  onClick={fetchRoute}
+                  onClick={loadPrevRoute}
                 >
-                  Generate Route
+                  Load Markers
                 </button>
+                <div className="map-container-wrapper__section">
+                  <button
+                    className="map-container-wrapper__button"
+                    onClick={fetchRoute}
+                  >
+                    Generate Route
+                  </button>
 
-                <button
-                  className="map-container-wrapper__button"
-                  onClick={clearRoute}
-                >
-                  Clear Route
-                </button>
+                  <button
+                    className="map-container-wrapper__button"
+                    onClick={clearRoute}
+                  >
+                    Clear Route
+                  </button>
+                </div>
               </div>
             </div>
             <CustomRoute saveRoute={saveRoute} />
           </div>
         </div>
-        <div>
-          {/* {savedRoutes.length > 0 && (
-            <div className="section__saved-routes">
-              <h2>Saved Routes</h2>
-              {savedRoutes.map((route, index) => (
-                <p key={index}>{route}</p>
-              ))}
-            </div>
-          )} */}
-        </div>
+        {showSavedRoutes && (
+          <div className="saved-routes-container">
+            <h2>Saved Routes</h2>
+            {savedRoutes.length > 0 ? (
+              savedRoutes.map((route, index) => (
+                <div key={index} className="saved-route">
+                  <h3>{route.name}</h3>
+                  <p>Tags: {route.tags.join(", ")}</p>
+                  <button
+                    onClick={() => {
+                      setCurrentRoute(route.route);
+                      alert(`Loaded route: ${route.name}`);
+                    }}
+                  >
+                    Load Route
+                  </button>
+                </div>
+              ))
+            ) : (
+              <p>No saved routes available.</p>
+            )}
+          </div>
+        )}
         {activeFeature && <p>Selected Location: {activeFeature}</p>}
       </div>
       {showModal && (

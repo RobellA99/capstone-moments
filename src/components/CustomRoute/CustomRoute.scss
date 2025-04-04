@@ -1,6 +1,8 @@
 .custom-route {
   display: flex;
+  flex-direction: column;
   align-items: center;
+
   &__button {
     border-radius: 0.5rem;
     border: none;
@@ -8,6 +10,33 @@
     background-color: #7b76d5;
     color: rgb(245, 244, 251);
     cursor: pointer;
-    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #5a54b5;
+    }
+  }
+
+  &__inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  &__input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    color: #333;
+
+    &:focus {
+      outline: none;
+      border-color: #7b76d5;
+      box-shadow: 0 0 4px rgba(123, 118, 213, 0.5);
+    }
   }
 }
