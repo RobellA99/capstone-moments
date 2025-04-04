@@ -24,6 +24,8 @@ export default function Map({
   const mapContainer = useRef(null);
   const map = useRef(null);
   const markersRef = useRef([]);
+  const formRef = useRef(null);
+  const mapContainerRef = useRef(null);
   const routeSource = useRef(null);
   const [activeFeature, setActiveFeature] = useState("");
   const [currentRoute, setCurrentRoute] = useState(null);
@@ -308,6 +310,12 @@ export default function Map({
     const placeName = await fetchPlaceName(lng, lat);
     setCurrentClickedAddress(placeName);
     setCurrentLocation({ lng, lat });
+
+    setTimeout(() => {
+      if (formRef.current) {
+        formRef.current.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 300);
   };
 
   const addMonument = async () => {
@@ -323,7 +331,7 @@ export default function Map({
     try {
       const newMonument = {
         ...monumentData,
-        id: monumentData,
+        id: Date.now(),
       };
 
       setMonuments((prevMonuments) => [...prevMonuments, newMonument]);
@@ -332,27 +340,6 @@ export default function Map({
         .setLngLat([newMonument.longitude, newMonument.latitude])
         .setPopup(new mapboxgl.Popup().setHTML(`<h3>${newMonument.name}</h3>`))
         .addTo(map.current);
-
-      marker.getElement().addEventListener("mouseenter", () => {
-        const popup = new mapboxgl.Popup({ offset: 25 })
-          .setHTML(`<h3>${newMonument.name}</h3>`)
-          .addTo(map.current);
-        marker.setPopup(popup);
-      });
-
-      marker.getElement().addEventListener("mouseleave", () => {
-        marker.getPopup().remove();
-      });
-
-      marker.getElement().addEventListener("click", () => {
-        const { lng, lat } = marker.getLngLat();
-        map.current.flyTo({
-          center: [lng, lat],
-          zoom: 14,
-          essential: true,
-        });
-        marker.togglePopup();
-      });
 
       markersRef.current.push(marker);
 
@@ -365,6 +352,12 @@ export default function Map({
         category: "",
         location: "London, UK",
       });
+
+      setTimeout(() => {
+        if (mapContainerRef.current) {
+          mapContainerRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 300);
     } catch (error) {
       console.error("Error adding monument:", error);
     }
@@ -489,7 +482,7 @@ export default function Map({
   };
 
   return (
-    <div className="map-container">
+    <div className="map-container" ref={mapContainerRef}>
       <button onClick={handleButtonClick} className="map-container__button">
         View Journey
       </button>
