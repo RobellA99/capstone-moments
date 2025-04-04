@@ -196,7 +196,17 @@ export default function LandingPage() {
 
   const handleSelectCategory = (e, category) => {
     e.stopPropagation();
-    setSelectedCategories([category, ...selectedCategories]);
+
+    // Toggle the category in the selectedCategories array
+    if (selectedCategories.includes(category)) {
+      // If the category is already selected, remove it
+      setSelectedCategories((prev) =>
+        prev.filter((selectedCategory) => selectedCategory !== category)
+      );
+    } else {
+      // If the category is not selected, add it
+      setSelectedCategories((prev) => [category, ...prev]);
+    }
   };
 
   const fetchCategory = async () => {
@@ -218,6 +228,10 @@ export default function LandingPage() {
     }
   };
 
+  useEffect(() => {
+    fetchCategory();
+  }, []);
+
   // const fetchCategoryImages = async (category) => {
   //   try {
   //     const response = await axios.get(
@@ -231,10 +245,6 @@ export default function LandingPage() {
   //     return [];
   //   }
   // };
-
-  useEffect(() => {
-    fetchCategory();
-  }, []);
 
   // useEffect(() => {
   //   if (categories) {
@@ -323,11 +333,15 @@ export default function LandingPage() {
                     )}
                   </ul>
                   <button
-                    className="card__container-side-button"
+                    className={`card__container-side-button ${
+                      selectedCategories.includes(category.category)
+                        ? "card__container-side-button--selected"
+                        : ""
+                    }`}
                     onClick={(e) => handleSelectCategory(e, category.category)}
                   >
-                    {categories.includes(category.category)
-                      ? "Deselect Category"
+                    {selectedCategories.includes(category.category)
+                      ? "Deselect"
                       : "Select Category"}
                     <ArrowSvg />
                   </button>

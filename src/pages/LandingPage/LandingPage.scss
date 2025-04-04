@@ -126,6 +126,19 @@
         margin-left: 0.5rem;
         fill: #fff;
       }
+
+      &--selected {
+        background-color: #ccc;
+        color: #7b76d5;
+
+        &:hover {
+          background-color: #bbb;
+        }
+
+        svg {
+          fill: #7b76d5;
+        }
+      }
     }
   }
 
