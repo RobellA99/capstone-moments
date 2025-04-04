@@ -83,47 +83,30 @@ export default function Map({
 
   const fetchMonuments = async (useQueryParams) => {
     try {
-      let requestUrl = null;
+      let requestUrl;
 
       if (useQueryParams) {
-        requestUrl = `http://localhost:5050/monuments?categories=${encodeURIComponent(
-          query.get("categories")
-        )}`;
+        const categories = query.get("categories");
+        if (!categories) {
+          requestUrl = `http://localhost:5050/monuments`;
+        } else {
+          requestUrl = `http://localhost:5050/monuments?categories=${encodeURIComponent(
+            categories
+          )}`;
+        }
       } else {
         requestUrl = `http://localhost:5050/monuments`;
       }
+
       const response = await axios.get(requestUrl);
       const monuments = response.data;
 
-      if (!monuments.length) return;
+      if (!monuments.length) {
+        console.warn("No monuments found for the selected categories.");
+        return;
+      }
 
       setMonuments(monuments);
-
-      monuments.forEach((monument) => {
-        const marker = new mapboxgl.Marker({ color: "orange" })
-          .setLngLat([monument.longitude, monument.latitude])
-          .setPopup(new mapboxgl.Popup().setHTML(`<h3>${monument.name}</h3>`))
-          .addTo(map.current);
-
-        markersRef.current.push(marker);
-
-        marker.getElement().addEventListener("mouseenter", () => {
-          const popup = new mapboxgl.Popup({ offset: 25 })
-            .setHTML(`<h3>${monument.name}</h3>`)
-            .addTo(map.current);
-          marker.setPopup(popup);
-        });
-
-        marker.getElement().addEventListener("mouseleave", () => {
-          marker.getPopup().remove();
-        });
-
-        marker.getElement().addEventListener("click", (e) => {
-          const { lng, lat } = marker.getLngLat();
-          calculateProximity(lat, lng);
-          setShowModal(false);
-        });
-      });
     } catch (error) {
       console.error("Error fetching monuments:", error);
     }
@@ -158,6 +141,7 @@ export default function Map({
         const routeGeometry = data.routes[0].geometry;
         setCurrentRoute(routeGeometry);
 
+        // Update or add the route line layer
         if (map.current.getSource("route")) {
           map.current.getSource("route").setData({
             type: "Feature",
@@ -181,8 +165,28 @@ export default function Map({
               "line-width": 5,
             },
           });
+        }
 
-          routeSource.current = map.current.getSource("route");
+        if (map.current.getLayer("routearrows")) {
+          map.current.getSource("route").setData({
+            type: "Feature",
+            geometry: routeGeometry,
+          });
+        } else {
+          map.current.addLayer({
+            id: "routearrows",
+            type: "symbol",
+            source: "route",
+            layout: {
+              "symbol-placement": "line",
+              "symbol-spacing": 50,
+              "text-field": "▶",
+              "icon-size": 0.8,
+            },
+            paint: {
+              "icon-color": "#ff7e5f",
+            },
+          });
         }
       }
     } catch (error) {
@@ -201,7 +205,12 @@ export default function Map({
       map.current.removeSource("route");
     }
 
+    if (map.current.getLayer("routearrows")) {
+      map.current.removeLayer("routearrows");
+    }
+
     setActiveFeature("");
+    setCurrentRoute(null);
   };
 
   const fetchPlaceName = async (lng, lat) => {
@@ -234,7 +243,6 @@ export default function Map({
         center: [-0.3, 51.5],
         zoom: 10,
       });
-
       map.current.on("click", handleMapClick);
     } catch (error) {
       console.error("Error initializing the map:", error);
@@ -359,6 +367,7 @@ export default function Map({
       console.log("No marker found for this monument.");
     }
   };
+
   const handleDeleteMarker = (monument) => {
     console.log("Deleting monument:", monument);
 
