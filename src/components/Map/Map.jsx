@@ -47,6 +47,7 @@ export default function Map({
   const [viewInfoCards, setViewInfoCards] = useState(false);
   const [savedRoutes, setSavedRoutes] = useState([]);
   const [viewJourney, setViewJourney] = useState(false);
+  const [startingMarker, setStartingMarker] = useState(null);
 
   const saveRoute = (routeName) => {
     setSavedRoutes((prevRoutes) => [...prevRoutes, routeName]);
@@ -124,22 +125,47 @@ export default function Map({
   }, [selectedCategories]);
 
   const fetchRoute = async () => {
-    const uniqueCoordinates = Array.from(
-      new Set(
-        monuments.map((journey) => `${journey.longitude},${journey.latitude}`)
-      )
-    );
-
-    if (uniqueCoordinates.length < 2) {
-      console.error("Not enough unique coordinates to generate a route.");
+    if (!startingMarker) {
+      alert("Please select a starting marker!");
       return;
     }
 
-    const coords = uniqueCoordinates.join(";");
+    const orderedMonuments = monuments.map((monument) => ({
+      id: monument.id,
+      coordinates: `${monument.longitude},${monument.latitude}`,
+    }));
+
+    const startMonument = orderedMonuments.find(
+      (monument) => monument.id === startingMarker
+    );
+
+    if (!startMonument) {
+      console.error("Starting marker not found.");
+      return;
+    }
+
+    const remainingMonuments = orderedMonuments.filter(
+      (monument) => monument.id !== startingMarker
+    );
+    const allCoordinates = [
+      startMonument.coordinates,
+      ...remainingMonuments.map((monument) => monument.coordinates),
+    ];
+
+    if (allCoordinates.length < 2) {
+      console.error("Not enough coordinates to generate a route.");
+      return;
+    }
+
+    const coords = allCoordinates.join(";");
 
     try {
       const response = await axios.get(
-        `https://api.mapbox.com/directions/v5/mapbox/walking/${coords}?access_token=${mapboxgl.accessToken}&geometries=geojson`
+        `https://api.mapbox.com/directions/v5/mapbox/driving/${coords}?access_token=${
+          mapboxgl.accessToken
+        }&geometries=geojson&overview=full&steps=true&waypoints=0;${
+          allCoordinates.length - 1
+        }`
       );
 
       const data = response.data;
@@ -297,7 +323,7 @@ export default function Map({
     try {
       const newMonument = {
         ...monumentData,
-        id: monumentData.id,
+        id: monumentData,
       };
 
       setMonuments((prevMonuments) => [...prevMonuments, newMonument]);
@@ -477,6 +503,8 @@ export default function Map({
                   monument={monument}
                   handleCardClick={handleCardClick}
                   handleDeleteMarker={handleDeleteMarker}
+                  setStartingMarker={setStartingMarker}
+                  startingMarker={startingMarker}
                 />
               ))}
             </div>
@@ -571,6 +599,12 @@ export default function Map({
               </fieldset>
             </div>
           </form>
+          {startingMarker && (
+            <p>
+              Starting Marker:{" "}
+              {monuments.find((m) => m.id === startingMarker)?.name}
+            </p>
+          )}
         </div>
       )}
     </div>

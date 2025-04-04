@@ -1,24 +1,80 @@
 .info-card {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 16px;
-  margin: 8px 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem;
   background-color: #fff;
+  border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
 
   &__name {
     font-size: 1.2rem;
     font-weight: bold;
-    margin-bottom: 8px;
+    margin-bottom: 0.5rem;
+    color: #333;
   }
 
   &__description {
-    font-size: 0.7rem;
-    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 0.5rem;
   }
 
   &__location {
+    font-size: 0.8rem;
+    color: #999;
+    margin-bottom: 1rem;
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    right: 1rem;
+  }
+
+  &__button-start {
+    background-color: #7b76d5;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
     font-size: 0.9rem;
-    color: #555;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+
+    &:hover {
+      background-color: #5a54b5;
+    }
+
+    &--selected {
+      background-color: #ccc;
+      color: #7b76d5;
+
+      &:hover {
+        background-color: #bbb;
+      }
+    }
+  }
+
+  &__button-delete {
+    background-color: transparent;
+    color: #ff4d4d;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: #ff1a1a;
+    }
   }
 }
