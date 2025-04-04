@@ -4,7 +4,7 @@ import "./CustomRoute.scss";
 export default function CustomRoute({ saveRoute }) {
   const [routeName, setRouteName] = useState("");
   const [tags, setTags] = useState("");
-  const [showInputs, setShowInputs] = useState(false); // Toggle visibility of inputs
+  const [showInputs, setShowInputs] = useState(false);
 
   const handleSave = () => {
     if (!routeName) {
@@ -14,7 +14,7 @@ export default function CustomRoute({ saveRoute }) {
     saveRoute(routeName, tags);
     setRouteName("");
     setTags("");
-    setShowInputs(false); // Hide inputs after saving
+    setShowInputs(false);
   };
 
   return (

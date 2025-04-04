@@ -65,7 +65,7 @@
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    height: 100%;
+    height: 500px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -78,16 +78,12 @@
 
   &__container-side {
     position: relative;
-    height: 300px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    height: 500px;
     background-color: #f9f9f9;
     padding: 1rem;
 
     &-container {
-      display: flex;
-      flex-direction: column;
+      height: 500px;
     }
 
     &-text {
