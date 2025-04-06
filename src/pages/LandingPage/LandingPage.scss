@@ -1,4 +1,5 @@
 @use "../../styles/partials/variables" as *;
+@use "../../styles/partials/mixins" as *;
 
 .hero {
   &__container {
@@ -6,15 +7,26 @@
     text-align: center;
     z-index: -1;
     overflow: hidden;
-  }
+    background-image: url("https://www.towerbridge.org.uk/sites/default/files/2022-09/_A9A4398_0.jpg");
+    background-size: cover; /* Ensure the entire image is visible */
+    background-position: center; /* Center the image */
+    height: 12rem; /* Set a fixed height for the container */
+    width: 100%; /* Full width */
+    filter: contrast(-1) saturate(1.5); /* Optional: Apply filters */
 
-  &__image {
-    height: 600px;
-    width: 100%;
-    object-fit: cover;
-    object-position: 50% 55%;
-    filter: contrast(-1);
-    filter: saturate(1.5);
+    @include tablet {
+      position: relative;
+      text-align: center;
+      z-index: -1;
+      overflow: hidden;
+      background-image: url("https://www.towerbridge.org.uk/sites/default/files/2022-09/_A9A4398_0.jpg");
+      background-size: contain; /* Ensure the entire image is visible */
+      background-position: center; /* Center the image */
+      background-repeat: no-repeat; /* Prevent the image from repeating */
+      height: 500px; /* Set a fixed height for the container */
+      width: 100%; /* Full width */
+      filter: contrast(-1) saturate(1.5); /* Optional: Apply filters */
+    }
   }
 
   &__text {
@@ -23,12 +35,16 @@
     left: 0;
     transform: translate(0, 0);
     text-transform: capitalize;
-    font-size: 300%;
+    font-size: 80%;
     color: #fff;
     z-index: 0;
     padding: 20px;
     background: rgba(255, 121, 121, 0.4);
     box-shadow: 0px 8px 16px 0px rgba(10, 10, 10, 0.5);
+
+    @include tablet {
+      font-size: 300%;
+    }
   }
 }
 

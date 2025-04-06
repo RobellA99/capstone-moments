@@ -152,7 +152,7 @@ export default function LandingPage() {
     <div>
       <section className="hero">
         <div className="hero__container">
-          <img className="hero__image" src={Image} alt="Picture of London" />
+          {/* <img className="hero__image" src={Image} alt="Picture of London" /> */}
           <h2 className="hero__text">Discover London</h2>
         </div>
       </section>
