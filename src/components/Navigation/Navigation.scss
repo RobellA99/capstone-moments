@@ -10,6 +10,8 @@
 
   @include tablet {
     padding: 1rem 2rem 1rem 1rem;
+    flex-direction: row;
+    width: 100%;
   }
 
   &__title {
@@ -18,9 +20,11 @@
     font-weight: 700;
     cursor: pointer;
     font-size: 1rem;
+    margin-bottom: 0.5rem;
 
     @include tablet {
       font-size: 1.7rem;
+      margin-bottom: 0;
     }
   }
 
@@ -44,5 +48,10 @@
   &__link {
     text-decoration: none;
     color: black;
+
+    &.active {
+      color: #7b76d5;
+      font-weight: 700;
+    }
   }
 }
