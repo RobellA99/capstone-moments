@@ -1,5 +1,16 @@
+@use "../../styles/partials/mixins" as *;
+
 .footer {
   background-color: rgb(245, 244, 251);
+  padding: 2rem;
+  border-top: 1px solid #ddd;
+
+  &__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+  }
 
   &__header {
     text-decoration: none;
@@ -9,15 +20,105 @@
 
   &__title {
     margin: 0;
-    padding: 1rem 0.5rem;
+    padding: 1rem 0;
+    font-size: 1.5rem;
+
+    @include tablet {
+      font-size: 2rem;
+    }
+
+    @include desktop {
+      font-size: 3rem;
+    }
   }
 
   &__image {
-    height: 2rem;
-    width: 2rem;
+    height: 3rem;
+    width: 3rem;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
   }
 
   &__container {
-    padding: 0.2rem 0.5rem;
+    @include tablet {
+      display: flex;
+    }
+
+    @include desktop {
+      width: 60%;
+    }
+  }
+
+  &__links {
+    flex: 1;
+
+    &-title {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 1rem;
+    }
+
+    &-list {
+      list-style: none;
+      padding: 0;
+      width: 10%;
+
+      .footer__link {
+        text-decoration: none;
+        color: #7b76d5;
+        font-size: 1rem;
+        padding: 0.5rem;
+        display: inline-block;
+        transition: color 0.3s ease;
+
+        &:hover {
+          color: #5a54b5;
+        }
+      }
+    }
+  }
+
+  &__contact {
+    &-title {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 1rem;
+    }
+
+    &-list {
+      list-style: none;
+      padding: 0;
+
+      li {
+        margin-bottom: 0.5rem;
+      }
+
+      .footer__contact-link {
+        text-decoration: none;
+        color: #7b76d5;
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem;
+        transition: color 0.3s ease;
+
+        &:hover {
+          color: #5a54b5;
+        }
+      }
+    }
+  }
+
+  .footer__icon {
+    font-size: 1.2rem;
   }
 }
