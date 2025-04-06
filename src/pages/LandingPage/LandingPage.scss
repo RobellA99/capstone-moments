@@ -8,11 +8,10 @@
     z-index: -1;
     overflow: hidden;
     background-image: url("https://www.towerbridge.org.uk/sites/default/files/2022-09/_A9A4398_0.jpg");
-    background-size: cover; /* Ensure the entire image is visible */
-    background-position: center; /* Center the image */
-    height: 12rem; /* Set a fixed height for the container */
-    width: 100%; /* Full width */
-    filter: contrast(-1) saturate(1.5); /* Optional: Apply filters */
+    background-size: cover;
+    background-position: center;
+    height: 12rem;
+    filter: contrast(-1) saturate(1.5);
 
     @include tablet {
       position: relative;
@@ -54,22 +53,32 @@
   width: 90%;
   display: flex;
   flex-direction: column;
+  height: 100%;
 
   &__header {
-    font-size: 2rem;
+    font-size: 1.5rem;
     text-align: center;
     margin-bottom: 2rem;
     color: #333;
+
+    @include tablet {
+      font-size: 2.5rem;
+    }
   }
 
   &__container {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr;
     gap: 2rem;
     justify-content: center;
     align-items: stretch;
     margin: 0 auto 3rem;
     max-width: 1200px;
+    height: 100%;
+
+    @include tablet {
+      grid-template-columns: repeat(3, 1fr);
+    }
   }
 
   &__container-box {
@@ -81,10 +90,10 @@
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    height: 700px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    height: 100%;
 
     &:hover {
       transform: translateY(-10px);
@@ -111,12 +120,22 @@
       }
     }
 
+    &-title {
+      font-size: 1rem;
+      margin-top: 1rem;
+      padding: 0 0.5rem;
+
+      @include tablet {
+        font-size: 1.5rem;
+        padding: 0 1rem;
+      }
+    }
+
     &-container {
       flex-grow: 1;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: 1rem;
     }
 
     &-text {
@@ -173,35 +192,40 @@
         }
       }
     }
-  }
-
-  &__container-side-header {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #555;
-    text-align: center;
-    margin: 1rem 0;
-  }
-
-  &__container-side-text {
-    padding: 1rem;
 
     &-header {
       font-size: 1rem;
       font-weight: bold;
-      margin-bottom: 0.5rem;
-      color: #444;
+      color: #555;
+      text-align: center;
+      margin: 0.5rem 0;
+
+      @include tablet {
+        font-size: 1.2rem;
+        margin: 1rem 0;
+      }
     }
 
-    &-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
+    &-text {
+      padding: 1rem;
 
-      li {
-        font-size: 0.9rem;
-        color: #666;
-        margin-bottom: 0.3rem;
+      &-header {
+        font-size: 1rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+        color: #444;
+      }
+
+      &-list {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 1rem;
+
+        li {
+          font-size: 0.9rem;
+          color: #666;
+          margin-bottom: 0.3rem;
+        }
       }
     }
   }
