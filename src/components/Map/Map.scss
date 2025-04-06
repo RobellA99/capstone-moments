@@ -53,33 +53,61 @@
 
 .map-container-wrapper {
   display: flex;
-  width: 78%;
-  margin: 0.5rem auto;
   position: absolute;
   bottom: 0;
-  left: 7.5rem;
+  left: 0;
   z-index: 999;
-  justify-content: space-between;
-  transition: width 0.3s ease;
+  transition: all 0.3s ease;
+  flex-direction: column;
+
+  @include tablet {
+    display: flex;
+    flex-direction: row;
+    left: 7.5rem;
+    bottom: 0;
+    width: 78%;
+    margin: 0.5rem auto;
+    justify-content: space-between;
+  }
 
   &--view {
-    width: 63%;
+    @include tablet {
+      width: 63%;
+    }
   }
 
   &__box {
-    align-self: flex-end;
+    align-self: flex-start;
+    padding-bottom: 1rem;
+
+    @include tablet {
+      align-self: flex-end;
+      padding-bottom: 0;
+    }
   }
 
   &__container {
     display: flex;
-    width: 30rem;
-    justify-content: space-between;
+    flex-direction: column;
+
+    @include tablet {
+      width: 30rem;
+      justify-content: space-between;
+      flex-direction: row;
+    }
   }
 
   &__section {
     display: flex;
-    justify-content: space-between;
-    width: 50%;
+    flex-direction: column;
+    margin-top: 1rem;
+
+    @include tablet {
+      justify-content: space-between;
+      width: 50%;
+      flex-direction: row;
+      margin-top: 0;
+    }
   }
 
   &__button {
@@ -89,10 +117,16 @@
     background-color: #7b76d5;
     color: rgb(245, 244, 251);
     cursor: pointer;
+    margin: 0.2rem 0;
+
+    @include tablet {
+      margin: 0;
+    }
   }
 }
 
 .modal {
+  margin-top: 1rem;
   &__form {
     &-container {
       &-container {

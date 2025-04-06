@@ -1,7 +1,13 @@
+@use "../../styles/partials/mixins" as *;
+
 .custom-route {
   display: flex;
-  flex-direction: column;
+
   align-items: center;
+
+  @include tablet {
+    flex-direction: column;
+  }
 
   &__button {
     border-radius: 0.5rem;
