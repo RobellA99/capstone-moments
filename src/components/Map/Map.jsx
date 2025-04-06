@@ -542,29 +542,6 @@ export default function Map({ resetTrigger, selectedCategories }) {
             <CustomRoute saveRoute={saveRoute} />
           </div>
         </div>
-        {/* {showSavedRoutes && (
-          <div className="saved-routes-container">
-            <h2>Saved Routes</h2>
-            {savedRoutes.length > 0 ? (
-              savedRoutes.map((route, index) => (
-                <div key={index} className="saved-route">
-                  <h3>{route.name}</h3>
-                  <p>Tags: {route.tags.join(", ")}</p>
-                  <button
-                    onClick={() => {
-                      setCurrentRoute(route.route);
-                      alert(`Loaded route: ${route.name}`);
-                    }}
-                  >
-                    Load Route
-                  </button>
-                </div>
-              ))
-            ) : (
-              <p>No saved routes available.</p>
-            )}
-          </div>
-        )} */}
       </div>
       {showModal && (
         <>

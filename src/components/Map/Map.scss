@@ -29,10 +29,10 @@
   width: 100%;
   overflow-y: auto;
   background-color: rgba(255, 255, 255, 0.5);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.2);
   z-index: 10;
   padding: 1rem;
-  border-radius: 8px;
+  border-radius: 0.5rem;
   transition: all 0.5s;
 
   @include tablet {
@@ -143,35 +143,23 @@
   }
 }
 
-// .modal {
-//   margin-top: 1rem;
-//   &__form {
-//     &-container {
-//       &-container {
-//         display: flex;
-//         justify-content: space-between;
-//       }
-//     }
-//   }
-// }
-
 .modal {
-  position: fixed; /* Ensure the modal is positioned on top of everything */
+  position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); /* Center the modal */
-  z-index: 1001; /* Higher than the map and other elements */
-  background-color: #f9f9f9; /* Light background for contrast */
+  transform: translate(-50%, -50%);
+  z-index: 1001;
+  background-color: #f9f9f9;
   padding: 2rem;
-  border-radius: 15px; /* Rounded corners for a modern look */
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  border-radius: 1rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
   width: 90%;
   max-width: 500px;
 
   &__form {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem; /* Add spacing between form elements */
+    gap: 1.5rem;
   }
 
   &__form-container {
@@ -185,7 +173,7 @@
     font-weight: bold;
     margin-bottom: 1rem;
     text-align: center;
-    color: #7b76d5; /* Theme color */
+    color: #7b76d5;
   }
 
   &__form-container-fieldset {
@@ -210,7 +198,7 @@
       width: 100%;
       padding: 0.8rem;
       border: 1px solid #ddd;
-      border-radius: 8px;
+      border-radius: 0.5rem;
       font-size: 1rem;
       color: #333;
       background-color: #fff;
@@ -218,13 +206,13 @@
 
       &:focus {
         outline: none;
-        border-color: #7b76d5; /* Theme color */
-        box-shadow: 0 0 4px rgba(123, 118, 213, 0.5); /* Subtle glow */
+        border-color: #7b76d5;
+        box-shadow: 0 0 0.25rem rgba(123, 118, 213, 0.5);
       }
     }
 
     textarea {
-      resize: none; /* Prevent resizing for better layout control */
+      resize: none;
     }
   }
 
@@ -235,33 +223,33 @@
     background: none;
     border: none;
     font-size: 1.5rem;
-    color: #7b76d5; /* Theme color */
+    color: #7b76d5;
     cursor: pointer;
     transition: color 0.3s ease;
 
     &:hover {
-      color: #5a54b5; /* Darker shade for hover effect */
+      color: #5a54b5;
     }
   }
 
   button[type="submit"] {
-    background-color: #7b76d5; /* Theme color */
+    background-color: #7b76d5;
     color: #fff;
     border: none;
     padding: 0.8rem 1.5rem;
-    border-radius: 20px;
+    border-radius: 1.25rem;
     font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
 
     &:hover {
-      background-color: #5a54b5; /* Darker shade for hover effect */
-      transform: translateY(-2px); /* Subtle lift effect */
+      background-color: #5a54b5;
+      transform: translateY(-0.125rem);
     }
 
     &:active {
-      transform: translateY(0); /* Reset lift effect on click */
+      transform: translateY(0);
     }
   }
 }
@@ -272,57 +260,6 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Greyed-out background */
-  z-index: 1000; /* Below the modal but above the map */
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
 }
-// .saved-routes-container {
-//   position: absolute;
-//   top: 10%;
-//   right: 5%;
-//   background-color: rgba(255, 255, 255, 0.9);
-//   padding: 1rem;
-//   border-radius: 8px;
-//   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-//   z-index: 1000;
-//   max-height: 50vh;
-//   overflow-y: auto;
-
-//   h2 {
-//     margin-bottom: 1rem;
-//     font-size: 1.5rem;
-//     color: #333;
-//   }
-
-//   .saved-route {
-//     margin-bottom: 1rem;
-//     padding: 0.5rem;
-//     border: 1px solid #ddd;
-//     border-radius: 8px;
-
-//     h3 {
-//       margin: 0;
-//       font-size: 1.2rem;
-//       color: #7b76d5;
-//     }
-
-//     p {
-//       margin: 0.5rem 0;
-//       font-size: 0.9rem;
-//       color: #666;
-//     }
-
-//     button {
-//       background-color: #7b76d5;
-//       color: #fff;
-//       border: none;
-//       padding: 0.5rem 1rem;
-//       border-radius: 20px;
-//       cursor: pointer;
-//       transition: background-color 0.3s ease;
-
-//       &:hover {
-//         background-color: #5a54b5;
-//       }
-//     }
-//   }
-// }

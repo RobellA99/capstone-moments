@@ -1,0 +1,131 @@
+.profile {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #f9f9f9;
+  border-radius: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  &__avatar-container {
+    position: relative;
+    text-align: center;
+
+    .profile__avatar {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #7b76d5;
+    }
+
+    .profile__avatar-button {
+      margin-top: 0.5rem;
+      background-color: #7b76d5;
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 1.25rem;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #5a54b5;
+      }
+    }
+  }
+
+  &__details {
+    flex: 1;
+
+    .profile__name {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .profile__email,
+    .profile__dob {
+      font-size: 1rem;
+      color: #666;
+      margin: 0.5rem 0;
+    }
+
+    .profile__stats {
+      display: flex;
+      gap: 2rem;
+      margin-top: 1rem;
+
+      .profile__stat {
+        text-align: center;
+
+        h3 {
+          font-size: 1rem;
+          color: #7b76d5;
+        }
+
+        p {
+          font-size: 1.2rem;
+          font-weight: bold;
+          color: #333;
+        }
+      }
+    }
+  }
+
+  &__routes {
+    margin-top: 2rem;
+
+    .profile__routes-header {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 1rem;
+    }
+
+    .profile__routes-list {
+      list-style: none;
+      padding: 0;
+
+      .profile__route {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+        &:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2);
+        }
+
+        .profile__route-name {
+          font-size: 1.2rem;
+          font-weight: bold;
+          color: #333;
+        }
+
+        .profile__route-tags {
+          font-size: 0.9rem;
+          color: #666;
+          margin-top: 0.5rem;
+        }
+      }
+    }
+
+    .profile__routes-empty {
+      font-size: 1rem;
+      color: #666;
+      text-align: center;
+    }
+  }
+}

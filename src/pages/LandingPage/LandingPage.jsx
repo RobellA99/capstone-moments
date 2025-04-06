@@ -3,7 +3,6 @@ import "./LandingPage.scss";
 import ArrowSvg from "../../components/ArrowSvg/ArrowSvg";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import Image from "../../assets/images/london.jpg";
 
 export default function LandingPage() {
   const [categories, setCategories] = useState(null);
@@ -152,7 +151,6 @@ export default function LandingPage() {
     <div>
       <section className="hero">
         <div className="hero__container">
-          {/* <img className="hero__image" src={Image} alt="Picture of London" /> */}
           <h2 className="hero__text">Discover London</h2>
         </div>
       </section>
