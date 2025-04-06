@@ -8,6 +8,7 @@
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease;
+  margin-bottom: 1rem;
 
   &:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -29,7 +30,7 @@
   &__location {
     font-size: 0.8rem;
     color: #999;
-    margin-bottom: 3rem;
+    margin-bottom: 3srem;
   }
 
   &__buttons {
