@@ -567,61 +567,69 @@ export default function Map({ resetTrigger, selectedCategories }) {
         )} */}
       </div>
       {showModal && (
-        <div className="modal">
-          Add new monument for {currentClickedAddress}
-          <form onSubmit={submitForm} className="modal__form">
-            <div className="modal__form-container">
-              <h2 className="modal__form-container-header">Add a Marker</h2>
-              <fieldset className="modal__form-container-fieldset">
-                <div className="modal__form-container-container">
-                  <label className="modal__form-container-label">
-                    <h3>Name:</h3>
-                    <input
-                      type="text"
-                      name="name"
-                      value={monumentData.name}
-                      onChange={handleInputChange}
-                    />
-                  </label>
-                  <label className="modal__form-container-label">
-                    <h3>Description:</h3>
-                    <textarea
-                      name="description"
-                      value={monumentData.description}
-                      onChange={handleInputChange}
-                    />
-                  </label>
-                </div>
-                <h3>Category:</h3>
-                <select
-                  name="category"
-                  value={monumentData.category}
-                  onChange={handleInputChange}
-                >
-                  <option value="">Please choose one...</option>
-
-                  <option value="Famous Towers & Structures">
-                    Famous Towers & Structures
-                  </option>
-                  <option value="Historic Landmarks">Historic Landmarks</option>
-                  <option value="Royal Residences">Royal Residences</option>
-                  <option value="Modern Attractions">Modern Attractions</option>
-                  <option value="Religious & Architectural Marvels">
-                    Religious & Architectural Marvels
-                  </option>
-                  <option value="cultural">Cultural & Public Spaces</option>
-                </select>
-                <button type="submit">Save</button>
-              </fieldset>
-            </div>
-          </form>
-          {startingMarker && (
-            <p>
-              Starting Marker:{" "}
-              {monuments.find((m) => m.id === startingMarker)?.name}
-            </p>
-          )}
-        </div>
+        <>
+          <div
+            className="modal-overlay"
+            onClick={() => setShowModal(false)}
+          ></div>
+          <div className="modal">
+            <button
+              className="modal__close-button"
+              onClick={() => setShowModal(false)}
+            >
+              &times;
+            </button>
+            <form onSubmit={submitForm} className="modal__form">
+              <div className="modal__form-container">
+                <h2 className="modal__form-container-header">Add a Marker</h2>
+                <fieldset className="modal__form-container-fieldset">
+                  <div className="modal__form-container-container">
+                    <label className="modal__form-container-label">
+                      <h3>Name:</h3>
+                      <input
+                        type="text"
+                        name="name"
+                        value={monumentData.name}
+                        onChange={handleInputChange}
+                      />
+                    </label>
+                    <label className="modal__form-container-label">
+                      <h3>Description:</h3>
+                      <textarea
+                        name="description"
+                        value={monumentData.description}
+                        onChange={handleInputChange}
+                      />
+                    </label>
+                  </div>
+                  <h3>Category:</h3>
+                  <select
+                    name="category"
+                    value={monumentData.category}
+                    onChange={handleInputChange}
+                  >
+                    <option value="">Please choose one...</option>
+                    <option value="Famous Towers & Structures">
+                      Famous Towers & Structures
+                    </option>
+                    <option value="Historic Landmarks">
+                      Historic Landmarks
+                    </option>
+                    <option value="Royal Residences">Royal Residences</option>
+                    <option value="Modern Attractions">
+                      Modern Attractions
+                    </option>
+                    <option value="Religious & Architectural Marvels">
+                      Religious & Architectural Marvels
+                    </option>
+                    <option value="cultural">Cultural & Public Spaces</option>
+                  </select>
+                  <button type="submit">Save</button>
+                </fieldset>
+              </div>
+            </form>
+          </div>
+        </>
       )}
     </div>
   );
