@@ -63,16 +63,19 @@
   @include tablet {
     display: flex;
     flex-direction: row;
-    left: 7.5rem;
     bottom: 0;
-    width: 78%;
     margin: 0.5rem auto;
     justify-content: space-between;
+    width: 70%;
+  }
+
+  @include desktop {
+    left: 7.5rem;
   }
 
   &--view {
-    @include tablet {
-      width: 63%;
+    @include desktop {
+      width: 60%;
     }
   }
 
@@ -91,9 +94,13 @@
     flex-direction: column;
 
     @include tablet {
-      width: 30rem;
+      width: 20rem;
       justify-content: space-between;
       flex-direction: row;
+    }
+
+    @include desktop {
+      width: 33rem;
     }
   }
 
@@ -104,9 +111,13 @@
 
     @include tablet {
       justify-content: space-between;
-      width: 50%;
+      width: 60%;
       flex-direction: row;
-      margin-top: 0;
+      margin: 0 0.5rem 0 0;
+    }
+
+    @include desktop {
+      width: 50%;
     }
   }
 
@@ -121,6 +132,13 @@
 
     @include tablet {
       margin: 0;
+      font-size: 0.8rem;
+      padding: 0.2rem 0.7rem;
+    }
+
+    @include desktop {
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
     }
   }
 }

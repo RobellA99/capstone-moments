@@ -2,11 +2,10 @@
 
 .custom-route {
   display: flex;
-
   align-items: center;
 
   @include tablet {
-    flex-direction: column;
+    align-self: flex-end;
   }
 
   &__button {

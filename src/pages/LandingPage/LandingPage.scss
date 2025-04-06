@@ -10,21 +10,16 @@
     background-image: url("https://www.towerbridge.org.uk/sites/default/files/2022-09/_A9A4398_0.jpg");
     background-size: cover;
     background-position: center;
-    height: 12rem;
+    height: 20vh;
+    width: 100%;
     filter: contrast(-1) saturate(1.5);
 
     @include tablet {
-      position: relative;
-      text-align: center;
-      z-index: -1;
-      overflow: hidden;
-      background-image: url("https://www.towerbridge.org.uk/sites/default/files/2022-09/_A9A4398_0.jpg");
-      background-size: contain; /* Ensure the entire image is visible */
-      background-position: center; /* Center the image */
-      background-repeat: no-repeat; /* Prevent the image from repeating */
-      height: 500px; /* Set a fixed height for the container */
-      width: 100%; /* Full width */
-      filter: contrast(-1) saturate(1.5); /* Optional: Apply filters */
+      height: 40vh;
+    }
+
+    @include desktop {
+      height: 60vh;
     }
   }
 
@@ -42,6 +37,10 @@
     box-shadow: 0px 8px 16px 0px rgba(10, 10, 10, 0.5);
 
     @include tablet {
+      font-size: 225%;
+    }
+
+    @include desktop {
       font-size: 300%;
     }
   }
@@ -62,6 +61,10 @@
     color: #333;
 
     @include tablet {
+      font-size: 2rem;
+    }
+
+    @include desktop {
       font-size: 2.5rem;
     }
   }
@@ -74,9 +77,12 @@
     align-items: stretch;
     margin: 0 auto 3rem;
     max-width: 1200px;
-    height: 100%;
 
     @include tablet {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include desktop {
       grid-template-columns: repeat(3, 1fr);
     }
   }
@@ -94,6 +100,14 @@
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
+
+    @include tablet {
+      height: 70%;
+    }
+
+    @include desktop {
+      height: 100%;
+    }
 
     &:hover {
       transform: translateY(-10px);

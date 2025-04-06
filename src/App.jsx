@@ -8,26 +8,10 @@ import MapPage from "./pages/MapPage/MapPage";
 import LandingPage from "./pages/LandingPage/LandingPage";
 
 export default function App() {
-  const [menuDrawerOpen, setMenuDrawerOpen] = useState(false);
-  // const [isClicked, setIsClicked] = useState(false);
-
-  // const handleClick = () => {
-  //   setMenuDrawerOpen(!menuDrawerOpen);
-  //   setIsClicked(!isClicked);
-  // };
   return (
     <BrowserRouter>
-      <div className="container">
-        {/* <button
-          onClick={handleClick}
-          className={`container__button ${
-            !isClicked ? "" : "container__button--inverted"
-          }`}
-        >
-          <Menu isClicked={isClicked} />
-        </button> */}
-        <Navigation />
-      </div>
+      <Navigation />
+
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/map" element={<MapPage />} />
