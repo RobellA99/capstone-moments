@@ -19,7 +19,7 @@ export default function InfoCard({
     >
       <h3 className="info-card__name">{monument.name}</h3>
       <p className="info-card__description">{monument.description}</p>
-      <p className="info-card__location">{monument.location}</p>
+      <p className="info-card__location"></p>
       <div className="info-card__buttons">
         <button
           className={`info-card__button-start ${
