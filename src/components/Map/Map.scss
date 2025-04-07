@@ -4,19 +4,22 @@
   display: flex;
   flex-direction: column;
   position: relative;
+  margin-bottom: 2rem;
 
   &__button {
     align-self: flex-end;
-    width: 40%;
+    width: 30%;
     margin-bottom: 0.5rem;
     border-radius: 2rem;
     border: none;
     padding: 0.5rem 0;
     color: rgb(245, 244, 251);
     background-color: #7b76d5;
+    font-size: 0.6rem;
 
     @include tablet {
       width: 20%;
+      font-size: 0.9rem;
     }
   }
 }
@@ -129,6 +132,7 @@
     color: rgb(245, 244, 251);
     cursor: pointer;
     margin: 0.2rem 0;
+    font-size: 0.5rem;
 
     @include tablet {
       margin: 0;
@@ -138,7 +142,7 @@
 
     @include desktop {
       padding: 0.5rem 1rem;
-      font-size: 0.9rem;
+      font-size: 1rem;
     }
   }
 }

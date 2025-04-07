@@ -23,7 +23,6 @@
     font-weight: 700;
     cursor: pointer;
     font-size: 1rem;
-    margin-bottom: 0.5rem;
 
     @include tablet {
       font-size: 1.7rem;
@@ -42,9 +41,9 @@
   &__container {
     display: flex;
     justify-content: space-between;
-    width: 30%;
+    width: 35%;
     align-items: center;
-    font-size: 0.8rem;
+    font-size: 1rem;
 
     @include tablet {
       font-size: 1.3rem;
@@ -53,7 +52,7 @@
 
     @include desktop {
       font-size: 1.7rem;
-      width: 15%;
+      width: 10%;
     }
   }
 

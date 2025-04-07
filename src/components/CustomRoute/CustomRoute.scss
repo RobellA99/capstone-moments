@@ -16,6 +16,15 @@
     color: rgb(245, 244, 251);
     cursor: pointer;
     transition: background-color 0.3s ease;
+    font-size: 0.5rem;
+
+    @include tablet {
+      font-size: 0.8rem;
+    }
+
+    @include desktop {
+      font-size: 1rem;
+    }
 
     &:hover {
       background-color: #5a54b5;

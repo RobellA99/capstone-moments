@@ -279,7 +279,7 @@ export default function Map({ resetTrigger, selectedCategories }) {
       map.current = new mapboxgl.Map({
         container: mapContainer.current,
         style: "mapbox://styles/mapbox/streets-v11",
-        center: [-0.3, 51.5],
+        center: [-0.2, 51.5],
         zoom: 10,
       });
       map.current.on("click", handleMapClick);
