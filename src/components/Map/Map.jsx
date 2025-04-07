@@ -46,7 +46,6 @@ export default function Map({ resetTrigger, selectedCategories }) {
   );
   const [viewJourney, setViewJourney] = useState(false);
   const [startingMarker, setStartingMarker] = useState(null);
-  // const [showSavedRoutes, setShowSavedRoutes] = useState(false);
 
   const saveRoute = (routeName, tags) => {
     const newRoute = {
@@ -109,7 +108,7 @@ export default function Map({ resetTrigger, selectedCategories }) {
           requestUrl = `${import.meta.env.VITE_BACK_END_URL}/monuments`;
         } else {
           requestUrl = `${
-            import.meta.env.VITE_BACKEND_URL
+            import.meta.env.VITE_BACK_END_URL
           }/monuments?categories=${encodeURIComponent(categories)}`;
         }
       }
@@ -295,20 +294,16 @@ export default function Map({ resetTrigger, selectedCategories }) {
 
   const handleMapClick = async (e) => {
     const { lng, lat } = e.lngLat;
-    calculateProximity(lng, lat);
-  };
 
-  const calculateProximity = async (lng, lat) => {
-    const existingMarker = map.current._markers.find((marker) => {
+    const isMarkerPresent = markersRef.current.some((marker) => {
       const { lng: markerLng, lat: markerLat } = marker.getLngLat();
       const distance = Math.sqrt(
         (markerLng - lng) ** 2 + (markerLat - lat) ** 2
       );
-      return distance < 0.001;
+      return distance < 0.003;
     });
-    if (existingMarker) {
-      existingMarker.togglePopup();
-      setShowModal(false);
+
+    if (isMarkerPresent) {
       return;
     }
 
