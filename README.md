@@ -7,13 +7,13 @@ A web app that allows you to build a personalised custom route when exploring a 
 Clone the project
 
 ```bash
-  git clone https://link-to-project
+  git clone https://github.com/RobellA99/capstone-moments.git
 ```
 
 Go to the project directory
 
 ```bash
-  cd my-project
+  cd capstone-moments
 ```
 
 Install dependencies
@@ -25,7 +25,7 @@ Install dependencies
 Start the server
 
 ```bash
-  npm run start
+  npm run dev
 ```
 
 ## Environment Variables
