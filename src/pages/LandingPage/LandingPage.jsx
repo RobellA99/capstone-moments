@@ -124,23 +124,23 @@ export default function LandingPage() {
     }
   }, [categories]);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prev) => {
-        const updatedIndex = { ...prev };
-        Object.keys(updatedIndex).forEach((category) => {
-          const images = categoryImages[category];
-          if (images && images.length > 0) {
-            updatedIndex[category] =
-              (updatedIndex[category] + 1) % images.length;
-          }
-        });
-        return updatedIndex;
-      });
-    }, 7000);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setCurrentImageIndex((prev) => {
+  //       const updatedIndex = { ...prev };
+  //       Object.keys(updatedIndex).forEach((category) => {
+  //         const images = categoryImages[category];
+  //         if (images && images.length > 0) {
+  //           updatedIndex[category] =
+  //             (updatedIndex[category] + 1) % images.length;
+  //         }
+  //       });
+  //       return updatedIndex;
+  //     });
+  //   }, 7000);
 
-    return () => clearInterval(interval);
-  }, [categoryImages]);
+  //   return () => clearInterval(interval);
+  // }, [categoryImages]);
 
   if (!categories || categories.length === 0) {
     return <p>Loading...</p>;
