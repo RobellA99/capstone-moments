@@ -14,9 +14,9 @@ export default function LandingPage() {
   const fetchMonumentsByCategory = async (category) => {
     try {
       const response = await axios.get(
-        `http://localhost:5050/monuments/category/monuments?category=${encodeURIComponent(
-          category
-        )}`
+        `${
+          import.meta.env.VITE_BACK_END_URL
+        }/monuments/category/monuments?category=${encodeURIComponent(category)}`
       );
       return response.data;
     } catch (error) {
@@ -74,7 +74,7 @@ export default function LandingPage() {
   const fetchCategory = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5050/monuments/category"
+        `${import.meta.env.VITE_BACK_END_URL}/monuments/category`
       );
       const category = response.data;
       if (!category.length) return;
@@ -97,9 +97,9 @@ export default function LandingPage() {
   const fetchCategoryImages = async (category) => {
     try {
       const response = await axios.get(
-        `http://localhost:5050/monuments/category/images?category=${encodeURIComponent(
-          category
-        )}`
+        `${
+          import.meta.env.VITE_BACK_END_URL
+        }/monuments/category/images?category=${encodeURIComponent(category)}`
       );
       return response.data;
     } catch (error) {
@@ -112,7 +112,6 @@ export default function LandingPage() {
     if (categories) {
       categories.forEach(async (category) => {
         const images = await fetchCategoryImages(category.category);
-        console.log(`Images for ${category.category}:`, images);
         setCategoryImages((prev) => ({
           ...prev,
           [category.category]: images,
@@ -164,7 +163,7 @@ export default function LandingPage() {
                   categoryImages[category.category].length > 0 && (
                     <img
                       className="card__container-side-image"
-                      src={`http://localhost:5050${
+                      src={`${import.meta.env.VITE_BACK_END_URL}${
                         categoryImages[category.category][
                           currentImageIndex[category.category]
                         ].image_url

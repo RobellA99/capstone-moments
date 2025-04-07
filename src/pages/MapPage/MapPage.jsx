@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import Map from "../../components/Map/Map";
-import CustomRoute from "../../components/CustomRoute/CustomRoute";
 import "./MapPage.scss";
 
 export default function MapPage() {

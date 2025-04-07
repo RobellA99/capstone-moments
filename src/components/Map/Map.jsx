@@ -7,8 +7,7 @@ import { useLocation } from "react-router-dom";
 import InfoCard from "../InfoCard/InfoCard";
 import CustomRoute from "../CustomRoute/CustomRoute";
 
-mapboxgl.accessToken =
-  "pk.eyJ1Ijoicm9iZWxsYSIsImEiOiJjbThvYnRvajIwMHV2Mm1zYnh2bXo2a3RuIn0.25KNcBy5b9rKGa-4yvHKJA";
+mapboxgl.accessToken = `${import.meta.env.VITE_MAPBOX_ACCESS_TOKEN}`;
 
 function useQuery() {
   const { search } = useLocation();
@@ -47,7 +46,7 @@ export default function Map({ resetTrigger, selectedCategories }) {
   );
   const [viewJourney, setViewJourney] = useState(false);
   const [startingMarker, setStartingMarker] = useState(null);
-  const [showSavedRoutes, setShowSavedRoutes] = useState(false);
+  // const [showSavedRoutes, setShowSavedRoutes] = useState(false);
 
   const saveRoute = (routeName, tags) => {
     const newRoute = {
@@ -107,11 +106,11 @@ export default function Map({ resetTrigger, selectedCategories }) {
       if (useQueryParams) {
         const categories = query.get("categories");
         if (!categories) {
-          requestUrl = `http://localhost:5050/monuments`;
+          requestUrl = `${import.meta.env.VITE_BACK_END_URL}/monuments`;
         } else {
-          requestUrl = `http://localhost:5050/monuments?categories=${encodeURIComponent(
-            categories
-          )}`;
+          requestUrl = `${
+            import.meta.env.VITE_BACKEND_URL
+          }/monuments?categories=${encodeURIComponent(categories)}`;
         }
       }
 
