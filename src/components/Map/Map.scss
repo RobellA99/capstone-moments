@@ -48,6 +48,14 @@
   height: 60vh;
   width: 100%;
 
+  @include tablet {
+    height: 70vh;
+  }
+
+  @include desktop {
+    height: 80vh;
+  }
+
   &__container {
     width: 100%;
     height: 100%;

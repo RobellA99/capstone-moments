@@ -10,8 +10,12 @@ export default function Footer() {
         <Link to="/" className="footer__header">
           <h3 className="footer__title">Moments</h3>
         </Link>
-        <div className="footer__container">
-          <img src={Logo} alt="Moments Logo" className="footer__image" />
+        <div className="footer__image-container">
+          <img
+            src={Logo}
+            alt="Moments Logo"
+            className="footer__image-container-image"
+          />
         </div>
       </div>
 

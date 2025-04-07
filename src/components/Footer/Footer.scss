@@ -4,13 +4,14 @@
   background-color: rgb(245, 244, 251);
   padding: 2rem;
   border-top: 1px solid #ddd;
-  margin-top: 2rem; // Add gap above the footer
+  margin-top: 2rem;
 
   &__top {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 2rem;
+    width: 100%;
   }
 
   &__header {
@@ -33,11 +34,21 @@
     }
   }
 
-  &__image {
+  &__image-container-image {
     height: 3rem;
     width: 3rem;
     border-radius: 50%;
     object-fit: cover;
+
+    @include tablet {
+      height: 4rem;
+      width: 4rem;
+    }
+
+    @include desktop {
+      height: 5rem;
+      width: 5rem;
+    }
   }
 
   &__content {
@@ -49,16 +60,17 @@
   &__container {
     @include tablet {
       display: flex;
+      justify-content: space-between;
+      width: 65%;
+      align-items: flex-start;
     }
 
     @include desktop {
-      width: 60%;
+      width: 50%;
     }
   }
 
   &__links {
-    flex: 1;
-
     &-title {
       font-size: 1.2rem;
       font-weight: bold;
