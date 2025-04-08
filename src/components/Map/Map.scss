@@ -5,6 +5,15 @@
   flex-direction: column;
   position: relative;
   margin-bottom: 2rem;
+  padding: 0;
+
+  @include tablet {
+    padding: 0 1rem;
+  }
+
+  @include desktop {
+    padding: 0 2rem;
+  }
 
   &__button {
     align-self: flex-end;
