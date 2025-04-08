@@ -33,6 +33,17 @@
   }
 }
 
+.map-container__button,
+.map-container-wrapper__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: auto;
+  white-space: nowrap;
+  padding: 0.5rem 1rem;
+}
+
 .info-cards-container {
   position: absolute;
   top: 0;
@@ -137,7 +148,8 @@
     }
 
     @include desktop {
-      width: 50%;
+      width: 40%;
+      gap: 1rem;
     }
   }
 

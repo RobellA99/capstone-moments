@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FaSave } from "react-icons/fa";
 import "./CustomRoute.scss";
 
 export default function CustomRoute({ saveRoute }) {
@@ -23,7 +24,7 @@ export default function CustomRoute({ saveRoute }) {
         className="custom-route__button"
         onClick={() => setShowInputs((prev) => !prev)}
       >
-        Save Custom Route
+        <FaSave style={{ marginRight: "0.5rem" }} /> Save Custom Route
       </button>
       {showInputs && (
         <div className="custom-route__inputs">

@@ -6,6 +6,7 @@ import axios from "axios";
 import { useLocation } from "react-router-dom";
 import InfoCard from "../InfoCard/InfoCard";
 import CustomRoute from "../CustomRoute/CustomRoute";
+import { FaRoute, FaTrashAlt, FaMapMarkerAlt, FaEye } from "react-icons/fa";
 
 mapboxgl.accessToken = `${import.meta.env.VITE_MAPBOX_ACCESS_TOKEN}`;
 
@@ -72,17 +73,6 @@ export default function Map({ resetTrigger, selectedCategories }) {
         .setLngLat([monument.longitude, monument.latitude])
         .setPopup(new mapboxgl.Popup().setHTML(`<h3>${monument.name}</h3>`))
         .addTo(map.current);
-
-      // marker.getElement().addEventListener("mouseenter", () => {
-      //   const popup = new mapboxgl.Popup({ offset: 25 })
-      //     .setHTML(`<h3>${monument.name}</h3>`)
-      //     .addTo(map.current);
-      //   marker.setPopup(popup);
-      // });
-
-      // marker.getElement().addEventListener("mouseleave", () => {
-      //   marker.getPopup().remove();
-      // });
 
       marker.getElement().addEventListener("click", () => {
         const { lng, lat } = marker.getLngLat();
@@ -493,7 +483,7 @@ export default function Map({ resetTrigger, selectedCategories }) {
   return (
     <div className="map-container" ref={mapContainerRef}>
       <button onClick={handleButtonClick} className="map-container__button">
-        View Journey
+        <FaEye style={{ marginRight: "0.5rem" }} /> View Journey
       </button>
       <div className="map-box">
         <div ref={mapContainer} className="map-box__container">
@@ -522,21 +512,22 @@ export default function Map({ resetTrigger, selectedCategories }) {
                   className="map-container-wrapper__button"
                   onClick={loadPrevRoute}
                 >
-                  Load Markers
+                  <FaMapMarkerAlt style={{ marginRight: "0.5rem" }} /> Load
+                  Markers
                 </button>
                 <div className="map-container-wrapper__section">
                   <button
                     className="map-container-wrapper__button"
                     onClick={fetchRoute}
                   >
-                    Generate Route
+                    <FaRoute style={{ marginRight: "0.5rem" }} /> Generate Route
                   </button>
 
                   <button
                     className="map-container-wrapper__button"
                     onClick={clearRoute}
                   >
-                    Clear Route
+                    <FaTrashAlt style={{ marginRight: "0.5rem" }} /> Clear Route
                   </button>
                 </div>
               </div>
