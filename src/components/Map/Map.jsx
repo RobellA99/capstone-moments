@@ -128,6 +128,10 @@ export default function Map({ resetTrigger, selectedCategories }) {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     fetchMonuments(true);
   }, [selectedCategories]);
 
@@ -300,7 +304,7 @@ export default function Map({ resetTrigger, selectedCategories }) {
       const distance = Math.sqrt(
         (markerLng - lng) ** 2 + (markerLat - lat) ** 2
       );
-      return distance < 0.003;
+      return distance < 0.0008;
     });
 
     if (isMarkerPresent) {
@@ -336,6 +340,10 @@ export default function Map({ resetTrigger, selectedCategories }) {
       };
 
       setMonuments((prevMonuments) => [...prevMonuments, newMonument]);
+      localStorage.setItem(
+        "JOURNEY",
+        JSON.stringify([...monuments, newMonument])
+      );
 
       const marker = new mapboxgl.Marker({ color: "orange" })
         .setLngLat([newMonument.longitude, newMonument.latitude])
