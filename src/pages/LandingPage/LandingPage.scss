@@ -8,7 +8,12 @@
     text-align: center;
     z-index: -1;
     overflow: hidden;
-    background-image: url("https://www.towerbridge.org.uk/sites/default/files/2022-09/_A9A4398_0.jpg");
+    background-image: linear-gradient(
+        82deg,
+        rgba(0, 0, 0, 0.6) 20%,
+        rgba(0, 0, 0, 0.3) 80%
+      ),
+      url("https://www.towerbridge.org.uk/sites/default/files/2022-09/_A9A4398_0.jpg");
     background-size: cover;
     background-position: center;
     height: 21vh;
@@ -32,7 +37,7 @@
     color: #fff;
     z-index: 0;
     padding: 20px;
-    background: rgba(255, 121, 121, 0.4);
+    // background: rgba(255, 121, 121, 0.4);
     box-shadow: 0px 8px 16px 0px rgba(10, 10, 10, 0.5);
 
     @include tablet {
@@ -115,7 +120,6 @@
     position: relative;
     background-color: #f9f9f9;
     overflow: hidden;
-    flex-grow: 1;
     display: flex;
     flex-direction: column;
     height: 30%;
@@ -132,10 +136,10 @@
       height: 100%;
       width: 100%;
       object-fit: cover;
-      transition: transform 5s;
+      transition: transform 0.5s;
 
       &:hover {
-        transform: scale(1.4);
+        transform: scale(1.1);
       }
     }
 
@@ -184,6 +188,17 @@
       cursor: pointer;
       transition: background-color 0.3s ease;
       margin-top: auto;
+      position: absolute;
+      bottom: 1rem;
+      left: 3.5rem;
+
+      @include tablet {
+        left: 5rem;
+      }
+
+      @include desktop {
+        left: 6rem;
+      }
 
       &:hover {
         background-color: #5a54b5;
