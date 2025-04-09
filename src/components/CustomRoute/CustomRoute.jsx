@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { FaSave } from "react-icons/fa";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./CustomRoute.scss";
 
 export default function CustomRoute({ saveRoute }) {
@@ -9,7 +11,7 @@ export default function CustomRoute({ saveRoute }) {
 
   const handleSave = () => {
     if (!routeName) {
-      alert("Please enter a route name!");
+      toast.error("Please enter a route name!");
       return;
     }
     saveRoute(routeName, tags);
@@ -20,6 +22,7 @@ export default function CustomRoute({ saveRoute }) {
 
   return (
     <div className="custom-route">
+      <ToastContainer />
       <button
         className="custom-route__button"
         onClick={() => setShowInputs((prev) => !prev)}
