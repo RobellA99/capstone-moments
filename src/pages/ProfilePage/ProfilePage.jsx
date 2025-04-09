@@ -11,7 +11,7 @@ export default function ProfilePage() {
       <div className="profile__header">
         <div className="profile__avatar-container">
           <img
-            src="https://via.placeholder.com/150"
+            src="https://api.dicebear.com/9.x/identicon/svg"
             alt="User Avatar"
             className="profile__avatar"
           />
