@@ -296,3 +296,34 @@
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 1000;
 }
+
+.Toastify__toast {
+  background-color: #7b76d5;
+  color: #f5f4fb;
+  font-size: 1.2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3);
+  padding: 1rem;
+}
+
+.Toastify__toast--success {
+  background-color: #5a54b5;
+}
+
+.Toastify__toast--error {
+  background-color: #d9534f;
+}
+
+.Toastify__close-button {
+  color: #f5f4fb;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.Toastify__progress-bar {
+  background-color: #f5f4fb;
+}
