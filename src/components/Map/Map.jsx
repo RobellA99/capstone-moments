@@ -7,8 +7,6 @@ import { useLocation } from "react-router-dom";
 import InfoCard from "../InfoCard/InfoCard";
 import CustomRoute from "../CustomRoute/CustomRoute";
 import { FaRoute, FaTrashAlt, FaMapMarkerAlt, FaEye } from "react-icons/fa";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 mapboxgl.accessToken = `${import.meta.env.VITE_MAPBOX_ACCESS_TOKEN}`;
 
@@ -61,7 +59,7 @@ export default function Map({ resetTrigger, selectedCategories }) {
     setSavedRoutes(updatedRoutes);
 
     localStorage.setItem("SAVED_ROUTES", JSON.stringify(updatedRoutes));
-    toast.success("Route saved successfully!");
+    alert("Route saved successfully!");
   };
 
   let query = useQuery();
@@ -129,7 +127,7 @@ export default function Map({ resetTrigger, selectedCategories }) {
 
   const fetchRoute = async () => {
     if (!startingMarker) {
-      toast.error("Please select a starting marker!");
+      alert("Please select a starting marker!");
       return;
     }
 
@@ -321,7 +319,7 @@ export default function Map({ resetTrigger, selectedCategories }) {
       !monumentData.description ||
       !monumentData.category
     ) {
-      toast.error("Please enter a name, description, and category!");
+      alert("Please enter a name, description, and category!");
       return;
     }
 
@@ -484,7 +482,6 @@ export default function Map({ resetTrigger, selectedCategories }) {
 
   return (
     <div className="map-container" ref={mapContainerRef}>
-      <ToastContainer />
       <button onClick={handleButtonClick} className="map-container__button">
         <FaEye style={{ marginRight: "0.5rem" }} /> View Journey
       </button>
